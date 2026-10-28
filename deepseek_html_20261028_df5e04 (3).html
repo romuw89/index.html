@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مانجا بلس | أفضل التوصيات والتقييمات</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  :root {
+    --bg: #0a0a0f; --bg-2: #12121a; --card: #16161f;
+    --accent: #0d9488; --accent-2: #0369a1; --gold: #f59e0b;
+    --heart: #f43f5e; --text: #e5e7eb; --muted: #8b8b9a;
+    --border: #232334; --sidebar-w: 270px;
+    --transition-fast: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  .svg-icon { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+  .sidebar { position: fixed; top: 0; right: 0; width: var(--sidebar-w); height: 100vh; background: linear-gradient(180deg, #0e0e15, #0a0a0f); border-left: 1px solid var(--border); z-index: 200; display: flex; flex-direction: column; transition: transform var(--transition-fast); overflow-y: auto; }
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 18px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(14,14,21,0.98); backdrop-filter: blur(10px); z-index: 10; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 1.35rem; font-weight: 900; letter-spacing: -0.5px; }
+  .logo-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; box-shadow: 0 0 15px rgba(13,148,136,0.4); flex-shrink: 0; }
+  .logo-icon svg { width: 22px; height: 22px; stroke: #fff; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round;}
+  .logo > span { color: #fff; }
+  .logo .tv { background: linear-gradient(90deg, #2dd4bf, #38bdf8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+  .sidebar-close { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: none; transition: var(--transition-fast); font-size: 1rem; }
+  .sidebar-close:hover { color: #fff; border-color: var(--accent); }
+  .sidebar-user { display: flex; align-items: center; gap: 12px; margin: 16px 12px 10px; padding: 14px; background: linear-gradient(135deg, rgba(13,148,136,0.15), rgba(3,105,161,0.1)); border: 1px solid rgba(13,148,136,0.2); border-radius: 12px; }
+  .user-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; flex-shrink: 0; box-shadow: 0 4px 15px rgba(13,148,136,0.3); }
+  .user-avatar svg { width: 24px; height: 24px; stroke: #fff; }
+  .user-name { font-weight: 700; font-size: 0.9rem; color: #fff; }
+  .user-sub { font-size: 0.75rem; color: var(--muted); margin-top: 3px; }
+  .sidebar-nav { padding: 12px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+  .sidebar-link { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 10px; color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: var(--transition-fast); background: none; border: none; cursor: pointer; width: 100%; text-align: right; font-family: inherit; }
+  .sidebar-link:hover { background: rgba(13,148,136,0.1); color: #fff; transform: translateX(-3px); }
+  .sidebar-link.active { background: linear-gradient(135deg, rgba(13,148,136,0.25), rgba(3,105,161,0.15)); color: #fff; box-shadow: inset 0 0 0 1px rgba(13,148,136,0.3); }
+  .sidebar-link.logout { color: #f87171; }
+  .sidebar-link.logout:hover { background: rgba(220,38,38,0.15); color: #fca5a5; }
+  .sidebar-divider { height: 1px; background: var(--border); margin: 12px 14px; }
+  .sidebar-group { display: flex; flex-direction: column; }
+  .sidebar-toggle .arrow { margin-right: auto; font-size: 0.65rem; transition: transform var(--transition-fast); opacity: 0.6; }
+  .sidebar-group.open .sidebar-toggle .arrow { transform: rotate(-90deg); }
+  .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding-right: 32px; display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-group.open .sidebar-submenu { max-height: 200px; padding-bottom: 4px; }
+  .sidebar-sublink { display: block; padding: 9px 14px; color: var(--muted); text-decoration: none; font-size: 0.82rem; font-weight: 500; border-radius: 8px; transition: var(--transition-fast); border-right: 2px solid transparent; }
+  .sidebar-sublink:hover { color: #fff; background: rgba(13,148,136,0.08); border-right-color: var(--accent); }
+  .sidebar-badge { margin-inline-start: auto; background: rgba(244,63,94,0.2); color: var(--heart); border: 1px solid rgba(244,63,94,0.4); font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 100px; min-width: 22px; text-align: center; line-height: 1.3; }
+  .sidebar-badge.wl-badge { background: rgba(13,148,136,0.2); color: #2dd4bf; border-color: rgba(13,148,136,0.4); }
+  .sidebar-badge.saved-badge { background: rgba(245,158,11,0.2); color: var(--gold); border-color: rgba(245,158,11,0.4); }
+  .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(3px); z-index: 150; opacity: 0; visibility: hidden; transition: var(--transition-fast); }
+  .sidebar-overlay.show { opacity: 1; visibility: visible; }
+
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 300; background: rgba(14,14,21,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: flex-end; padding: 8px 4px calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -8px 30px rgba(0,0,0,0.5); font-family: inherit; transition: transform 0.3s ease, opacity 0.3s ease; }
+  @media (min-width: 1025px) { .bottom-nav { right: var(--sidebar-w); } }
+  .sidebar.open ~ .bottom-nav { transform: translateY(120%); opacity: 0; pointer-events: none; }
+  .bottom-nav-item { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; background: none; border: none; color: var(--muted); font-family: inherit; font-size: 0.68rem; font-weight: 700; cursor: pointer; padding: 4px 0; transition: var(--transition-fast); min-width: 0; }
+  .bottom-nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: var(--transition-fast); }
+  .bottom-nav-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .bottom-nav-item:hover { color: #fff; }
+  .bottom-nav-item.active { color: var(--accent); }
+  .bottom-nav-item:not(.center)::after { content: ''; position: absolute; top: 0; left: 50%; width: 22px; height: 3px; background: linear-gradient(90deg, var(--accent), #38bdf8); border-radius: 0 0 3px 3px; transform: translateX(-50%) scaleX(0); transition: transform 0.25s ease; transform-origin: center; }
+  .bottom-nav-item:not(.center).active::after { transform: translateX(-50%) scaleX(1); }
+  .bottom-nav-item.center { position: relative; }
+  .bottom-nav-item.center .center-btn { width: 56px; height: 56px; margin-top: -30px; margin-bottom: 2px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; box-shadow: 0 6px 20px rgba(13,148,136,0.5), 0 0 25px rgba(13,148,136,0.3); border: 3px solid var(--bg); transition: var(--transition-fast); }
+  .bottom-nav-item.center .center-btn svg { width: 26px; height: 26px; stroke: #fff; stroke-width: 2.4; }
+  .bottom-nav-item.center:hover .center-btn { transform: scale(1.08); box-shadow: 0 8px 30px rgba(13,148,136,0.8), 0 0 40px rgba(13,148,136,0.5); }
+  .bottom-nav-item.center.active .center-btn { background: linear-gradient(135deg, #2dd4bf, #38bdf8); box-shadow: 0 8px 30px rgba(56,189,248,0.6), 0 0 40px rgba(13,148,136,0.5); }
+  .bottom-nav-item.center.active span { color: var(--accent); }
+  @media (max-width: 768px) {
+    .bottom-nav-item { font-size: 0.62rem; }
+    .bottom-nav-item svg { width: 20px; height: 20px; }
+    .bottom-nav-item.center .center-btn { width: 50px; height: 50px; margin-top: -26px; }
+    .bottom-nav-item.center .center-btn svg { width: 22px; height: 22px; }
+  }
+
+  .main-wrapper { margin-right: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; padding-bottom: 88px; }
+
+  nav.top-nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px 5%; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); gap: 15px; }
+  .nav-start { display: flex; align-items: center; gap: 12px; }
+  .menu-toggle { display: none; align-items: center; justify-content: center; width: 42px; height: 42px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: #fff; cursor: pointer; transition: var(--transition-fast); }
+  .menu-toggle:hover { border-color: var(--accent); }
+  .logo-mobile { display: none; font-size: 1.15rem; }
+  .logo-mobile .logo-icon { width: 32px; height: 32px; }
+  .nav-links { display: flex; gap: 28px; list-style: none; margin-right: auto; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: var(--transition-fast); position: relative; }
+  .nav-links a:hover, .nav-links a.active { color: #fff; }
+  .nav-links a.active::after { content: ''; position: absolute; bottom: -8px; right: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 2px; }
+  .search-box { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px; transition: var(--transition-fast); }
+  .search-box:focus-within { border-color: var(--accent); box-shadow: 0 0 15px rgba(13,148,136,0.3); }
+  .search-box svg { width: 16px; height: 16px; stroke: var(--muted); }
+  .search-box input { background: none; border: none; outline: none; color: #fff; font-size: 0.9rem; width: 160px; font-family: inherit; }
+  .search-box input::placeholder { color: var(--muted); }
+
+  .hero { position: relative; padding: 70px 5% 90px; min-height: 560px; display: grid; grid-template-columns: 1.2fr 0.8fr; align-items: center; gap: 40px; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background-image: linear-gradient(to left, rgba(10,10,15,0.4), rgba(10,10,15,0.95) 80%), url('https://picsum.photos/seed/blackclover/1600/900'); background-size: cover; background-position: center 20%; z-index: 0; filter: saturate(1.2); }
+  .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(13,148,136,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(13,148,136,0.05) 1px, transparent 1px); background-size: 42px 42px; mask-image: radial-gradient(circle at center, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%); pointer-events: none; z-index: 1; }
+  .hero-content { position: relative; z-index: 2; max-width: 640px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, rgba(3,105,161,0.15), rgba(13,148,136,0.2)); border: 1px solid rgba(13,148,136,0.5); color: #5eead4; padding: 12px 24px; border-radius: 100px; font-size: 0.95rem; font-weight: 900; margin-bottom: 25px; box-shadow: 0 0 20px rgba(13,148,136,0.2), inset 0 0 15px rgba(13,148,136,0.1); text-shadow: 0 0 10px rgba(13,148,136,0.5); letter-spacing: 0.5px; transition: var(--transition-fast); cursor: default; backdrop-filter: blur(10px); }
+  .hero-badge:hover { box-shadow: 0 0 35px rgba(13,148,136,0.5); transform: scale(1.03); }
+  .hero-badge svg { width: 18px; height: 18px; stroke: #f59e0b; fill: #f59e0b; animation: pulseEmoji 2s infinite; }
+  @keyframes pulseEmoji { 50% { transform: scale(1.1); opacity: 0.8; } }
+  .hero h1 { font-size: 3.5rem; font-weight: 900; line-height: 1.15; margin-bottom: 20px; letter-spacing: -1.5px; }
+  .hero h1 span { background: linear-gradient(90deg, #2dd4bf, #38bdf8, #f59e0b); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { color: #d1d5db; font-size: 1.05rem; line-height: 1.8; margin-bottom: 35px; max-width: 520px; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn { position: relative; padding: 16px 36px; border-radius: 14px; border: none; font-weight: 800; font-size: 1.05rem; cursor: pointer; transition: all var(--transition-fast); display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-family: inherit; overflow: hidden; z-index: 1; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); background-size: 150% auto; color: #fff; box-shadow: 0 8px 25px rgba(13,148,136,0.4); }
+  .btn-primary::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent) 100%); background-size: 150% auto; opacity: 0; transition: var(--transition-fast); border-radius: 14px; z-index: -1; }
+  .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 30px rgba(3,105,161,0.6), 0 0 40px rgba(13,148,136,0.4); }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary svg { width: 18px; height: 18px; fill: currentColor; }
+  .btn-ghost { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); transform: translateY(-2px); }
+  .btn-ghost svg { width: 18px; height: 18px; stroke: currentColor; }
+  .btn.favorited { background: rgba(244,63,94,0.15) !important; border-color: rgba(244,63,94,0.5) !important; color: var(--heart) !important; }
+  .btn.favorited svg { fill: var(--heart) !important; stroke: var(--heart) !important; }
+  .btn-ghost.active-action { background: rgba(13,148,136,0.15) !important; border-color: var(--accent) !important; color: #2dd4bf !important; }
+  .btn-ghost.active-action svg { fill: #2dd4bf !important; stroke: #2dd4bf !important; }
+  .hero-poster-wrapper { position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
+  .hero-poster { width: 100%; max-width: 380px; border-radius: 20px; box-shadow: -15px 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(13,148,136,0.3); border: 1px solid rgba(13,148,136,0.3); animation: floatPoster 6s ease-in-out infinite; transform: rotateY(-8deg) rotateX(4deg) rotateZ(-2deg); transition: 0.4s ease-out; cursor: pointer; }
+  .hero-poster:hover { transform: rotateY(0deg) rotateX(0deg) rotateZ(0deg) scale(1.05); box-shadow: -20px 30px 60px rgba(0,0,0,0.9), 0 0 60px rgba(3,105,161,0.5); }
+  @keyframes floatPoster { 0%, 100% { transform: translateY(0) rotateY(-8deg) rotateX(4deg) rotateZ(-2deg); } 50% { transform: translateY(-15px) rotateY(-5deg) rotateX(2deg) rotateZ(0deg); } }
+
+  section { padding: 40px 5%; }
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+  .section-title { font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; gap: 12px; }
+  .section-title::before { content: ''; width: 5px; height: 30px; background: linear-gradient(180deg, var(--accent), var(--accent-2)); border-radius: 3px; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn { padding: 10px 22px; background: var(--card); border: 1px solid var(--border); color: var(--muted); border-radius: 100px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: var(--transition-fast); font-family: inherit; }
+  .filter-btn:hover { color: #fff; border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(13,148,136,0.2); }
+  .filter-btn.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border-color: transparent; box-shadow: 0 4px 15px rgba(13,148,136,0.4); }
+
+  .anime-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 22px; }
+  .anime-card { background: var(--card); border-radius: 16px; overflow: hidden; cursor: pointer; transition: all var(--transition-fast); border: 1px solid var(--border); position: relative; }
+  .anime-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 15px 35px rgba(13,148,136,0.2); }
+  .anime-card.removing { animation: cardRemove 0.3s ease forwards; pointer-events: none; }
+  @keyframes cardRemove { to { opacity: 0; transform: scale(0.85); } }
+  .card-img { height: 290px; background-size: cover; background-position: center; position: relative; overflow: hidden; transition: transform var(--transition-fast); }
+  .anime-card:hover .card-img { transform: scale(1.05); }
+  .card-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, var(--card) 5%, transparent 60%); }
+  .rating { position: absolute; top: 12px; right: 12px; background: rgba(10,10,15,0.85); backdrop-filter: blur(10px); color: var(--gold); padding: 5px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; z-index: 2; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(245,158,11,0.3); }
+  .rating svg { width: 12px; height: 12px; fill: var(--gold); }
+  .status-badge { position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; z-index: 2; backdrop-filter: blur(10px); }
+  .status-ongoing { background: rgba(34,197,94,0.9); color: #fff; }
+  .status-completed { background: rgba(59,130,246,0.9); color: #fff; }
+  .card-fav-btn, .card-wl-btn, .card-save-btn { position: absolute; top: 48px; right: 12px; width: 34px; height: 34px; border-radius: 10px; background: rgba(10,10,15,0.85); backdrop-filter: blur(10px); border: 1px solid var(--border); color: var(--muted); display: grid; place-items: center; cursor: pointer; z-index: 3; padding: 0; transition: var(--transition-fast); }
+  .card-save-btn.pos-2 { top: 90px; }
+  .card-fav-btn:hover { border-color: var(--heart); color: var(--heart); transform: scale(1.12); }
+  .card-fav-btn.active { background: rgba(244,63,94,0.22); border-color: var(--heart); color: var(--heart); }
+  .card-wl-btn:hover { border-color: var(--accent); color: var(--accent); transform: scale(1.12); }
+  .card-wl-btn.active { background: rgba(13,148,136,0.22); border-color: var(--accent); color: #2dd4bf; }
+  .card-save-btn:hover { border-color: var(--gold); color: var(--gold); transform: scale(1.12); }
+  .card-save-btn.active { background: rgba(245,158,11,0.22); border-color: var(--gold); color: var(--gold); }
+  .card-fav-btn svg, .card-wl-btn svg, .card-save-btn svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform var(--transition-fast); }
+  .card-fav-btn.active svg { fill: currentColor; }
+  .card-save-btn.active svg { fill: currentColor; }
+  .card-fav-btn:active svg, .card-wl-btn:active svg, .card-save-btn:active svg { transform: scale(0.85); }
+  .card-body { padding: 16px; position: relative; z-index: 2; margin-top: -30px; }
+  .card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-meta { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 0.8rem; }
+  .genres { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .genre-tag { font-size: 0.7rem; padding: 3px 8px; background: rgba(13,148,136,0.1); color: var(--accent); border-radius: 5px; border: 1px solid rgba(13,148,136,0.2); }
+
+  .rec-section { background: linear-gradient(180deg, transparent, rgba(13,148,136,0.05), transparent); padding: 60px 5%; margin-top: 30px; }
+  .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 18px; }
+  .rec-card { display: flex; gap: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; transition: var(--transition-fast); cursor: pointer; align-items: center; }
+  .rec-card:hover { border-color: var(--accent); background: var(--bg-2); transform: translateX(-4px); }
+  .rec-img { width: 70px; height: 92px; border-radius: 10px; background-size: cover; background-position: center; flex-shrink: 0; }
+  .rec-info h4 { font-size: 0.95rem; margin-bottom: 5px; font-weight: 700; }
+  .rec-info .rec-meta { color: var(--muted); font-size: 0.8rem; margin-bottom: 6px; }
+  .rec-info .rec-score { color: var(--gold); font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+  .rec-info .rec-score svg { width: 12px; height: 12px; fill: var(--gold); }
+
+  footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 40px 5% 20px; margin-top: auto; text-align: center; color: var(--muted); font-size: 0.9rem; }
+  footer .logo { justify-content: center; margin-bottom: 15px; }
+  footer p { margin-top: 10px; }
+  footer .social { display: flex; gap: 15px; justify-content: center; margin: 15px 0; }
+  footer .social a { width: 40px; height: 40px; border-radius: 10px; background: var(--card); border: 1px solid var(--border); display: grid; place-items: center; color: var(--muted); text-decoration: none; transition: var(--transition-fast); }
+  footer .social a:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-3px); }
+  footer .social a svg { width: 18px; height: 18px; fill: currentColor; }
+
+  .watch-page { padding: 24px 5% 60px; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .watch-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
+  .back-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); color: #fff; padding: 10px 18px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: var(--transition-fast); font-family: inherit; }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateX(4px); }
+  .back-btn svg { width: 16px; height: 16px; stroke: currentColor; }
+  .breadcrumb { display: inline-flex; align-items: center; gap: 8px; background: rgba(13,148,136,0.08); border: 1px solid rgba(13,148,136,0.25); padding: 8px 18px; border-radius: 100px; color: var(--muted); font-size: 0.85rem; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2); backdrop-filter: blur(10px); }
+  .breadcrumb span { background: linear-gradient(90deg, #2dd4bf, #38bdf8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; font-size: 0.95rem; }
+
+  .watch-layout { display: grid; grid-template-columns: 1fr 320px; gap: 26px; margin-bottom: 30px; }
+  .video-player { position: relative; aspect-ratio: 16/9; border-radius: 18px; overflow: hidden; background: #000; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 60px rgba(13,148,136,0.1); cursor: pointer; user-select: none; }
+  .player-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(30px) brightness(0.2) saturate(1.4); transform: scale(1.2); z-index: 0; }
+  .video-frame { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 1; opacity: 0; transform: scale(1); transition: opacity 0.6s ease, transform 25s linear; }
+  .video-player.playing .video-frame { opacity: 1; transform: scale(1.08); }
+  .video-player::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%); z-index: 2; pointer-events: none; }
+  .player-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; background: rgba(10,10,15,0.35); backdrop-filter: blur(3px); transition: opacity 0.4s ease, visibility 0.4s; gap: 22px; }
+  .video-player.playing .player-overlay { opacity: 0; visibility: hidden; pointer-events: none; }
+  .play-btn { position: relative; width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); display: grid; place-items: center; cursor: pointer; box-shadow: 0 0 30px rgba(13,148,136,0.8), 0 0 60px rgba(13,148,136,0.5), inset 0 0 20px rgba(255,255,255,0.2); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 3px solid rgba(255,255,255,0.2); z-index: 2; }
+  .play-btn svg { width: 40px; height: 40px; fill: #fff; margin-right: 6px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); transition: 0.3s; }
+  .play-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px rgba(13,148,136,1), 0 0 80px rgba(13,148,136,0.7), inset 0 0 30px rgba(255,255,255,0.3); }
+  .play-btn:hover svg { transform: scale(1.1); }
+  .play-btn::before, .play-btn::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid rgba(13,148,136,0.6); animation: pulseRing 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; pointer-events: none; }
+  .play-btn::after { inset: -22px; animation-delay: 1.25s; border-color: rgba(3,105,161,0.4); }
+  @keyframes pulseRing { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(1.5); opacity: 0; } }
+  .now-playing-overlay { background: rgba(10,10,15,0.85); backdrop-filter: blur(15px); padding: 10px 22px; border-radius: 100px; border: 1px solid var(--border); color: #fff; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.3px; }
+  .controls-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 50px 18px 14px; background: linear-gradient(to top, rgba(0,0,0,0.98) 10%, rgba(0,0,0,0.7) 60%, transparent); z-index: 10; opacity: 0; transform: translateY(15px); transition: 0.3s ease; pointer-events: none; }
+  .video-player.show-controls .controls-bar { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .progress-container { padding: 8px 0; cursor: pointer; position: relative; }
+  .progress-bg { height: 4px; background: rgba(255,255,255,0.15); border-radius: 3px; position: relative; }
+  .progress-fill { height: 100%; width: 0%; background: rgba(45, 212, 191, 0.85); border-radius: 3px; position: relative; transition: width 0.1s linear; }
+  .progress-fill::after { content: ''; position: absolute; right: 0; top: 50%; width: 10px; height: 10px; border-radius: 50%; background: #fff; transform: translate(50%, -50%); box-shadow: 0 0 4px rgba(0,0,0,0.5); transition: transform 0.1s linear; }
+  .controls-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 4px; }
+  .controls-left, .controls-right { display: flex; align-items: center; gap: 4px; }
+  .ctrl-btn { background: transparent; border: none; color: #fff; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: var(--transition-fast); font-family: inherit; position: relative; padding: 0; }
+  .ctrl-btn:hover { background: rgba(13,148,136,0.3); color: #2dd4bf; }
+  .ctrl-btn svg { width: 20px; height: 20px; fill: currentColor; pointer-events: none; }
+  .skip-btn { position: relative; width: 40px; height: 36px; }
+  .skip-btn .skip-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.55rem; font-weight: 900; color: currentColor; pointer-events: none; margin-top: 1px; }
+  .time-display { color: rgba(255,255,255,0.85); font-size: 0.75rem; font-weight: 600; padding: 0 10px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .quality-wrap { position: relative; }
+  .quality-trigger { width: auto; padding: 0 12px; gap: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; height: 32px; font-size: 0.75rem; font-weight: 700; color: #fff; }
+  .quality-trigger:hover { background: rgba(13,148,136,0.3); border-color: var(--accent); color: #fff; }
+  .quality-trigger svg { width: 14px; height: 14px; fill: currentColor; }
+  .quality-menu { position: absolute; bottom: calc(100% + 12px); left: 0; background: rgba(15,15,22,0.98); backdrop-filter: blur(25px); border: 1px solid rgba(13,148,136,0.3); border-radius: 14px; padding: 8px; min-width: 220px; display: flex; flex-direction: column; gap: 3px; opacity: 0; visibility: hidden; transform: translateY(10px) scale(0.94); transform-origin: bottom left; transition: var(--transition-fast); box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 40px rgba(13,148,136,0.2); z-index: 100; }
+  .quality-menu.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+  .quality-menu-header { padding: 8px 12px 6px; font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+  .quality-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 9px; background: transparent; border: none; color: #e5e7eb; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition-fast); font-family: inherit; text-align: right; width: 100%; }
+  .quality-item:hover { background: rgba(13,148,136,0.15); color: #fff; transform: translateX(-2px); }
+  .quality-item.active { background: linear-gradient(90deg, rgba(13,148,136,0.35), rgba(3,105,161,0.15)); color: #fff; box-shadow: inset 0 0 0 1px rgba(13,148,136,0.5); }
+  .quality-item.active::before { content: '✓'; color: #2dd4bf; font-weight: 900; margin-left: 8px; }
+  .quality-item .quality-badge { font-size: 0.68rem; color: var(--muted); font-weight: 500; padding: 2px 8px; background: rgba(255,255,255,0.05); border-radius: 5px; }
+  .quality-item.active .quality-badge { color: #2dd4bf; background: rgba(13,148,136,0.2); }
+  .skip-flash { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 20; opacity: 0; }
+  .skip-flash.show { animation: skipFlashAnim 0.5s ease; }
+  .skip-flash-inner { background: rgba(10,10,15,0.9); backdrop-filter: blur(15px); border: 2px solid var(--accent); border-radius: 50%; width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 800; box-shadow: 0 0 30px rgba(13,148,136,0.6); gap: 2px; }
+  .skip-flash-inner .arrow-big { font-size: 1.5rem; }
+  .skip-flash-inner .num-big { font-size: 1rem; }
+  @keyframes skipFlashAnim { 0% { opacity: 0; transform: scale(0.8); } 25% { opacity: 1; transform: scale(1); } 75% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); } }
+
+  .watch-info { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 18px; height: fit-content; }
+  .watch-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .watch-title { font-size: 1.5rem; font-weight: 900; line-height: 1.3; letter-spacing: -0.5px; }
+  .watch-rating-badge { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05)); border: 1px solid rgba(245,158,11,0.4); color: var(--gold); padding: 6px 12px; border-radius: 10px; font-size: 0.9rem; font-weight: 800; white-space: nowrap; flex-shrink: 0; display: flex; align-items: center; gap: 4px; }
+  .watch-rating-badge svg { width: 14px; height: 14px; fill: var(--gold); }
+  .watch-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .watch-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat { background: rgba(13,148,136,0.05); border: 1px solid rgba(13,148,136,0.15); border-radius: 10px; padding: 10px 12px; text-align: center; }
+  .stat-label { font-size: 0.7rem; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+  .stat-value { font-size: 0.95rem; font-weight: 800; color: #fff; background: linear-gradient(90deg, #2dd4bf, #38bdf8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .watch-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.8; padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: justify; }
+  .watch-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .watch-actions .btn { padding: 12px 14px; font-size: 0.85rem; flex: 1 1 40%; justify-content: center; min-width: 110px; }
+
+  .download-section { display: flex; flex-direction: column; gap: 12px; margin-top: 5px; padding-top: 18px; border-top: 1px solid var(--border); }
+  .server-buttons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  @media (max-width: 480px) { .server-buttons { grid-template-columns: repeat(3, 1fr); } }
+  .server-btn { display: flex; align-items: center; justify-content: space-between; background: var(--bg-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; cursor: pointer; transition: var(--transition-fast); color: var(--muted); font-family: inherit; font-size: 0.75rem; font-weight: 600; }
+  .server-btn:hover { border-color: var(--accent); color: #fff; }
+  .server-btn.active { background: rgba(13,148,136,0.15); border-color: var(--accent); color: #fff; box-shadow: inset 0 0 0 1px rgba(13,148,136,0.3); }
+  .server-name { font-weight: 700; font-size: 0.72rem; }
+  .server-quality { font-size: 0.65rem; background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px; color: var(--gold); font-weight: 700; }
+  .server-btn.active .server-quality { background: rgba(245,158,11,0.2); color: var(--gold); }
+  .btn-download { width: 100%; padding: 14px; border-radius: 12px; border: none; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-weight: 800; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition-fast); font-family: inherit; box-shadow: 0 4px 15px rgba(245,158,11,0.3); }
+  .btn-download:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,0.5); }
+  .btn-download:active { transform: translateY(0); }
+  .btn-download svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  .episodes-section { padding: 0; margin-bottom: 40px; }
+  .episodes-count { color: var(--muted); font-size: 0.9rem; background: var(--card); padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); }
+  .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 8px; max-height: 380px; overflow-y: auto; border: 1px solid var(--border); border-radius: 14px; padding: 14px; background: rgba(13,148,136,0.02); }
+  .episodes-grid::-webkit-scrollbar { width: 6px; }
+  .episodes-grid::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+  .episode-btn { aspect-ratio: 1; background: var(--card); border: 1px solid var(--border); color: var(--muted); border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: var(--transition-fast); font-family: inherit; display: grid; place-items: center; }
+  .episode-btn:hover { color: #fff; border-color: var(--accent); background: rgba(13,148,136,0.15); transform: translateY(-2px); }
+  .episode-btn.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; border-color: transparent; box-shadow: 0 4px 15px rgba(13,148,136,0.4); }
+
+  /* === أزرار الروابط الخارجية === */
+  .external-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .ext-link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 100px; font-size: 0.8rem; font-weight: 700; text-decoration: none; transition: var(--transition-fast); border: 1px solid var(--border); background: var(--bg-2); color: var(--muted); cursor: pointer; }
+  .ext-link-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
+  .ext-link-btn.tg { border-color: rgba(34,158,217,0.4); color: #2dd4bf; }
+  .ext-link-btn.tg:hover { background: rgba(34,158,217,0.1); border-color: #2dd4bf; }
+  .ext-link-btn.wit { border-color: rgba(139,92,246,0.4); color: #a78bfa; }
+  .ext-link-btn.wit:hover { background: rgba(139,92,246,0.1); border-color: #a78bfa; }
+  .ext-link-btn.a4u { border-color: rgba(239,68,68,0.4); color: #f87171; }
+  .ext-link-btn.a4u:hover { background: rgba(239,68,68,0.1); border-color: #f87171; }
+  .ext-link-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+  @media (max-width: 768px) {
+    .external-links { justify-content: center; }
+    .ext-link-btn { font-size: 0.72rem; padding: 6px 12px; }
+  }
+
+  .fancy-divider { display: flex; align-items: center; gap: 16px; padding: 25px 0; color: var(--muted); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.5px; }
+  .fancy-divider::before, .fancy-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+  .fancy-divider .divider-icon { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, rgba(13,148,136,0.2), rgba(3,105,161,0.1)); border: 1px solid rgba(13,148,136,0.3); display: grid; place-items: center; box-shadow: 0 0 20px rgba(13,148,136,0.2); }
+  .fancy-divider .divider-icon svg { width: 20px; height: 20px; fill: #2dd4bf; }
+  .similar-section { padding: 0; margin-bottom: 40px; }
+  .similar-wrapper { position: relative; }
+  .similar-wrapper::before, .similar-wrapper::after { content: ''; position: absolute; top: 0; bottom: 20px; width: 40px; pointer-events: none; z-index: 3; }
+  .similar-wrapper::before { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+  .similar-wrapper::after { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+  .similar-scroll { display: flex; gap: 18px; overflow-x: auto; overflow-y: hidden; padding: 8px 8px 22px; scroll-behavior: smooth; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: var(--accent) rgba(255,255,255,0.05); -webkit-overflow-scrolling: touch; }
+  .similar-scroll::-webkit-scrollbar { height: 8px; }
+  .similar-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+  .similar-scroll::-webkit-scrollbar-thumb { background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 10px; border: 2px solid var(--bg); }
+  .similar-scroll .anime-card { min-width: 200px; max-width: 200px; flex-shrink: 0; scroll-snap-align: start; animation: none !important; opacity: 1 !important; }
+  .similar-scroll .card-img { height: 265px; }
+  .similar-hint { position: absolute; top: 45%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(15,15,22,0.9); backdrop-filter: blur(10px); border: 1px solid var(--accent); color: var(--accent); display: grid; place-items: center; cursor: pointer; z-index: 5; transition: var(--transition-fast); font-size: 1.1rem; opacity: 0.7; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+  .similar-hint:hover { opacity: 1; transform: translateY(-50%) scale(1.1); background: var(--accent); color: #fff; }
+  .similar-hint.right { right: -8px; }
+  .similar-hint.left { left: -8px; }
+
+  .favorites-page { padding: 32px 5% 60px; animation: fadeIn 0.35s ease; min-height: 60vh; }
+  .favorites-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
+  .favorites-title-wrap { display: flex; align-items: center; gap: 12px; }
+  .favorites-actions-wrap { display: flex; align-items: center; gap: 10px; }
+  .page-title { font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px; display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(90deg, #2dd4bf, #38bdf8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .page-title .heart-ico { width: 28px; height: 28px; fill: var(--heart); stroke: none; filter: drop-shadow(0 0 12px rgba(244,63,94,0.4)); flex-shrink: 0; }
+  .favorites-count-badge { background: rgba(13,148,136,0.15); color: #2dd4bf; border: 1px solid rgba(13,148,136,0.3); padding: 4px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 700; }
+  .back-btn.small-btn { padding: 6px 12px; font-size: 0.8rem; border-radius: 8px; background: rgba(255,255,255,0.05); }
+  .back-btn.small-btn svg { width: 14px; height: 14px; }
+  .favorites-toolbar { display: flex; flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 24px; padding: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .favorites-search { width: 100%; padding: 6px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; }
+  .favorites-search:focus-within { border-color: var(--accent); }
+  .favorites-search svg { width: 16px; height: 16px; }
+  .favorites-search input { font-size: 0.85rem; }
+  .favorites-toolbar .filters { width: 100%; gap: 6px; justify-content: flex-start; }
+  .favorites-toolbar .filter-btn { padding: 6px 14px; font-size: 0.75rem; font-weight: 600; background: #0f172a; border: 1px solid #334155; color: #cbd5e1; }
+  .favorites-toolbar .filter-btn:hover { border-color: #38bdf8; color: #fff; }
+  .favorites-toolbar .filter-btn.active { background: linear-gradient(135deg, #0369a1, #0d9488); border-color: #38bdf8; color: #fff; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
+  .favorites-empty { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 70px 20px; text-align: center; color: var(--muted); background: rgba(13,148,136,0.03); border: 1px dashed var(--border); border-radius: 16px; line-height: 1.8; gap: 6px; }
+  .favorites-empty .empty-ico { width: 72px; height: 72px; stroke: var(--border); fill: none; stroke-width: 1.5; margin-bottom: 10px; }
+  .favorites-empty strong { color: #fff; font-size: 1.1rem; display: block; margin-bottom: 4px; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .anime-card, .rec-card { animation: fadeUp 0.4s ease forwards; opacity: 0; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  @media (max-width: 1024px) {
+    .sidebar { transform: translateX(100%); box-shadow: none; }
+    .sidebar.open { transform: translateX(0); box-shadow: -10px 0 40px rgba(0,0,0,0.5); }
+    .sidebar-close { display: block; }
+    .main-wrapper { margin-right: 0; }
+    .menu-toggle { display: flex; }
+    .logo-mobile { display: flex; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; text-align: center; padding: 50px 5%; }
+    .hero-poster-wrapper { display: none; }
+    .hero-btns { justify-content: center; }
+    .hero h1 { font-size: 2.8rem; }
+    .watch-layout { grid-template-columns: 1fr; }
+    .watch-info { order: 2; }
+  }
+  @media (min-width: 1025px) {
+    .nav-start { display: none; }
+    .nav-links { margin-right: 0; margin-left: auto; }
+  }
+  @media (max-width: 768px) {
+    nav.top-nav { padding: 14px 4%; }
+    .search-box input { width: 110px; }
+    .hero { padding: 40px 4%; min-height: 400px; }
+    .hero h1 { font-size: 2.1rem; }
+    .hero p { font-size: 0.95rem; }
+    .btn { padding: 14px 28px; font-size: 0.95rem; }
+    section { padding: 30px 4%; }
+    .anime-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 14px; }
+    .card-img { height: 210px; }
+    .section-title { font-size: 1.35rem; }
+    .rec-grid { grid-template-columns: 1fr; }
+    .watch-page { padding: 16px 4% 40px; }
+    .watch-title { font-size: 1.2rem; }
+    .play-btn { width: 78px; height: 78px; }
+    .play-btn svg { width: 34px; height: 34px; }
+    .now-playing-overlay { font-size: 0.78rem; padding: 7px 14px; }
+    .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); max-height: 300px; }
+    .watch-stats { grid-template-columns: 1fr 1fr; }
+    .controls-bar { padding: 40px 10px 10px; }
+    .ctrl-btn { width: 32px; height: 32px; }
+    .ctrl-btn svg { width: 18px; height: 18px; }
+    .skip-btn { width: 34px; }
+    .time-display { font-size: 0.7rem; padding: 0 6px; }
+    .quality-trigger { font-size: 0.72rem; padding: 0 8px; height: 30px; }
+    .quality-menu { min-width: 180px; }
+    .quality-item { padding: 8px 10px; font-size: 0.78rem; }
+    .similar-scroll .anime-card { min-width: 155px; max-width: 155px; }
+    .similar-scroll .card-img { height: 210px; }
+    .similar-hint { width: 30px; height: 30px; font-size: 0.95rem; }
+    .card-fav-btn, .card-wl-btn, .card-save-btn { width: 30px; height: 30px; top: 42px; right: 10px; }
+    .card-save-btn.pos-2 { top: 78px; }
+    .card-fav-btn svg, .card-wl-btn svg, .card-save-btn svg { width: 15px; height: 15px; }
+    .favorites-page { padding: 18px 4% 40px; }
+    .page-title { font-size: 1.4rem; }
+    .page-title .heart-ico { width: 22px; height: 22px; }
+    .favorites-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .favorites-actions-wrap { width: 100%; justify-content: space-between; }
+    .server-btn { flex-direction: column; align-items: center; gap: 4px; padding: 6px; }
+    .server-name { font-size: 0.7rem; }
+    .server-quality { font-size: 0.6rem; padding: 1px 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+      <span>مانجا <span class="tv">بلس</span></span>
+    </div>
+    <button class="sidebar-close" id="sidebarClose" aria-label="إغلاق">✕</button>
+  </div>
+  <div class="sidebar-user">
+    <div class="user-avatar"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+    <div class="user-info">
+      <div class="user-name">أهلاً بك 👋</div>
+      <div class="user-sub">مستخدم مانجا بلس</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="sidebar-link">
+      <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 
+      الحساب
+    </a>
+    <a href="#" class="sidebar-link">
+      <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 
+      التقييمات
+    </a>
+    <a href="#" class="sidebar-link" id="topRatedLink">
+      <svg class="svg-icon" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> 
+      الأعلى تقييماً
+    </a>
+    <div class="sidebar-group" id="animeListGroup">
+      <button class="sidebar-link sidebar-toggle" id="animeListToggle">
+        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+        <span>قائمة الأنميات</span>
+        <span class="arrow">◀</span>
+      </button>
+      <div class="sidebar-submenu">
+        <a href="#" class="sidebar-sublink">انمي مكتمل</a>
+        <a href="#" class="sidebar-sublink">انمي مستمر</a>
+      </div>
+    </div>
+    <a href="#" class="sidebar-link" id="favoritesLink">
+      <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      مفضلاتي
+      <span class="sidebar-badge" id="favSidebarBadge" style="display:none">0</span>
+    </a>
+    <a href="#" class="sidebar-link" id="savedLink">
+      <svg class="svg-icon" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      المحفوظات
+      <span class="sidebar-badge saved-badge" id="savedSidebarBadge" style="display:none">0</span>
+    </a>
+    <a href="#" class="sidebar-link" id="watchLaterLink">
+      <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      المشاهدة لاحقا
+      <span class="sidebar-badge wl-badge" id="wlSidebarBadge" style="display:none">0</span>
+    </a>
+    <div class="sidebar-divider"></div>
+    <a href="#" class="sidebar-link">
+      <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      الإعدادات
+    </a>
+    <a href="#" class="sidebar-link">
+      <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      المشغل
+    </a>
+    <a href="#" class="sidebar-link logout">
+      <svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      تسجيل الخروج
+    </a>
+  </nav>
+</aside>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="main-wrapper">
+  <nav class="top-nav">
+    <div class="nav-start">
+      <button class="menu-toggle" id="menuToggle" aria-label="القائمة">
+        <svg class="svg-icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="logo logo-mobile">
+        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+        <span>مانجا <span class="tv">بلس</span></span>
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" class="active" onclick="showHome(event)">الرئيسية</a></li>
+      <li><a href="#anime">الأنميات</a></li>
+      <li><a href="#recs">التوصيات</a></li>
+      <li><a href="#">الموسم</a></li>
+    </ul>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="ابحث عن أنمي..." id="searchInput">
+    </div>
+  </nav>
+
+  <!-- Home View -->
+  <div id="homeView">
+    <header class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          الأنمي الأكثر مشاهدة هذا الأسبوع
+        </div>
+        <h1>أفضل <span>التوصيات والتقييمات</span> في</h1>
+        <p>عالم الأنمي — مجموعة مختارة من أفضل الأنميات والمسلسلات اليابانية مع توصيات حصرية تناسب ذوقك، في تجربة بصرية عصرية ومظلمة.</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary" id="startWatchBtn">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> ابدأ المشاهدة
+          </button>
+          <button class="btn btn-ghost">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> أضف لقائمتي
+          </button>
+        </div>
+      </div>
+      <div class="hero-poster-wrapper">
+        <img src="https://cdn.myanimelist.net/images/anime/1735/103182l.jpg" alt="Anime Cover" class="hero-poster" id="heroPoster">
+      </div>
+    </header>
+
+    <section id="anime">
+      <div class="section-header">
+        <h2 class="section-title">أحدث وأشهر الأنميات</h2>
+      </div>
+      <div class="anime-grid" id="newReleasesGrid"></div>
+    </section>
+
+    <section id="anime">
+      <div class="section-header">
+        <h2 class="section-title">الأنميات المميزة</h2>
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">الكل</button>
+          <button class="filter-btn" data-filter="magic">سحر</button>
+          <button class="filter-btn" data-filter="action">أكشن</button>
+          <button class="filter-btn" data-filter="fantasy">فانتازيا</button>
+          <button class="filter-btn" data-filter="drama">دراما</button>
+          <button class="filter-btn" data-filter="romance">رومانسي</button>
+          <button class="filter-btn" data-filter="school">مدرسي</button>
+          <button class="filter-btn" data-filter="scifi">خيال علمي</button>
+        </div>
+      </div>
+      <div class="anime-grid" id="animeGrid"></div>
+    </section>
+
+    <section class="rec-section" id="recs">
+      <div class="section-header">
+        <h2 class="section-title">توصيات لك</h2>
+      </div>
+      <div class="rec-grid" id="recGrid"></div>
+    </section>
+  </div>
+
+  <!-- Watch View -->
+  <div id="watchView" style="display:none">
+    <main class="watch-page">
+      <div class="watch-top">
+        <button class="back-btn" id="backBtn">
+          <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> رجوع
+        </button>
+        <div class="breadcrumb">الرئيسية / <span id="breadcrumbTitle">...</span></div>
+      </div>
+      <div class="watch-layout">
+        <div class="video-player" id="videoPlayer">
+          <div class="player-bg" id="playerBg"></div>
+          <div class="video-frame" id="videoFrame"></div>
+          <div class="player-overlay" id="playerOverlay">
+            <button class="play-btn" id="bigPlayBtn" aria-label="تشغيل">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="now-playing-overlay" id="nowPlayingOverlay">الحلقة 1</div>
+          </div>
+          <div class="skip-flash" id="skipFlash">
+            <div class="skip-flash-inner">
+              <span class="arrow-big" id="skipFlashArrow">↺</span>
+              <span class="num-big">5s</span>
+            </div>
+          </div>
+          <div class="controls-bar" id="controlsBar">
+            <div class="progress-container" id="progressContainer">
+              <div class="progress-bg">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+            </div>
+            <div class="controls-row">
+              <div class="controls-left">
+                <button class="ctrl-btn" id="playPauseBtn" title="تشغيل/إيقاف">
+                  <svg viewBox="0 0 24 24" id="playPauseIcon"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <button class="ctrl-btn skip-btn" data-skip="-5" title="رجوع 5 ثوان">
+                  <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                  <span class="skip-label">5</span>
+                </button>
+                <button class="ctrl-btn skip-btn" data-skip="5" title="تقديم 5 ثوان">
+                  <svg viewBox="0 0 24 24" style="transform: scaleX(-1)"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                  <span class="skip-label">5</span>
+                </button>
+                <button class="ctrl-btn" id="muteBtn" title="الصوت">
+                  <svg viewBox="0 0 24 24" id="muteIcon"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                </button>
+                <span class="time-display" id="timeDisplay">0:00 / 24:00</span>
+              </div>
+              <div class="controls-right">
+                <div class="quality-wrap">
+                  <button class="ctrl-btn quality-trigger" id="qualityTrigger">
+                    <span id="currentQualityLabel">1080p</span>
+                    <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                  </button>
+                  <div class="quality-menu" id="qualityMenu">
+                    <div class="quality-menu-header">جودة الفيديو</div>
+                    <button class="quality-item" data-q="240p"><span>240p</span><span class="quality-badge">منخفضة</span></button>
+                    <button class="quality-item" data-q="360p"><span>360p</span><span class="quality-badge">متوسطة</span></button>
+                    <button class="quality-item" data-q="480p"><span>480p</span><span class="quality-badge">جيدة</span></button>
+                    <button class="quality-item" data-q="720p"><span>720p HD</span><span class="quality-badge">عالية</span></button>
+                    <button class="quality-item active" data-q="1080p"><span>1080p FHD</span><span class="quality-badge">عالية جداً</span></button>
+                    <button class="quality-item" data-q="1440p"><span>1440p 2K</span><span class="quality-badge">فائقة</span></button>
+                    <button class="quality-item" data-q="4K"><span>4K UHD</span><span class="quality-badge">استثنائية</span></button>
+                  </div>
+                </div>
+                <button class="ctrl-btn" id="fullscreenBtn" title="ملء الشاشة">
+                  <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="watch-info">
+          <div class="watch-title-row">
+            <h1 class="watch-title" id="watchTitle">...</h1>
+            <div class="watch-rating-badge">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span id="watchRating">0.0</span>
+            </div>
+          </div>
+          <div class="watch-tags" id="watchTags"></div>
+          <div class="watch-stats">
+            <div class="stat"><div class="stat-label">التقييم</div><div class="stat-value" id="statRating">-</div></div>
+            <div class="stat"><div class="stat-label">المشاهدات عالمياً</div><div class="stat-value" id="statViews">-</div></div>
+            <div class="stat"><div class="stat-label">عدد الحلقات</div><div class="stat-value" id="statEpisodes">-</div></div>
+            <div class="stat"><div class="stat-label">سنة الإنتاج</div><div class="stat-value" id="statYear">-</div></div>
+          </div>
+          <p class="watch-desc" id="watchDesc">...</p>
+          <div class="watch-actions">
+            <button class="btn btn-primary" id="watchNowBtn" style="flex: 1 1 100%;">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> مشاهدة الآن
+            </button>
+            <button class="btn btn-ghost" id="watchFavBtn">
+              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <span id="watchFavLabel">مفضلة</span>
+            </button>
+            <button class="btn btn-ghost" id="watchSaveBtn">
+              <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              <span id="watchSaveLabel">للحفظ</span>
+            </button>
+            <button class="btn btn-ghost" id="watchLaterBtn">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>لاحقاً</span>
+            </button>
+          </div>
+
+          <!-- روابط المشاهدة الخارجية -->
+          <div class="external-links" id="externalLinks">
+            <button class="ext-link-btn tg" id="tgLinkBtn" title="مشاهدة على تلغرام">
+              <svg viewBox="0 0 24 24"><path d="M21.5 2.5L2.5 10.5l7 2 2 7 10-17z"/></svg>
+              تلغرام
+            </button>
+            <button class="ext-link-btn wit" id="witLinkBtn" title="مشاهدة على ويت انمي">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 6-6"/></svg>
+              ويت انمي
+            </button>
+            <button class="ext-link-btn a4u" id="a4uLinkBtn" title="مشاهدة على انمي فور اب">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6"/></svg>
+              انمي فور اب
+            </button>
+          </div>
+
+          <div class="download-section">
+            <div class="server-buttons">
+              <button class="server-btn active" data-server="1" data-quality="240p">
+                <span class="server-name">سيرفر 1</span>
+                <span class="server-quality">240p</span>
+              </button>
+              <button class="server-btn" data-server="2" data-quality="360p">
+                <span class="server-name">سيرفر 2</span>
+                <span class="server-quality">360p</span>
+              </button>
+              <button class="server-btn" data-server="3" data-quality="480p">
+                <span class="server-name">سيرفر 3</span>
+                <span class="server-quality">480p</span>
+              </button>
+              <button class="server-btn" data-server="4" data-quality="720p">
+                <span class="server-name">سيرفر 4</span>
+                <span class="server-quality">720p</span>
+              </button>
+              <button class="server-btn" data-server="5" data-quality="1080p">
+                <span class="server-name">سيرفر 5</span>
+                <span class="server-quality">1080p</span>
+              </button>
+            </div>
+            <button class="btn-download" id="downloadBtn">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              تحميل
+            </button>
+          </div>
+
+        </div>
+      </div>
+      
+      <section class="episodes-section">
+        <div class="section-header">
+          <h2 class="section-title">الحلقات</h2>
+          <span class="episodes-count" id="episodesCount">0 حلقة</span>
+        </div>
+        <div class="episodes-grid" id="episodesGrid"></div>
+      </section>
+      
+      <div class="fancy-divider">
+        <div class="divider-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span>أنميات مشابهة قد تعجبك</span>
+      </div>
+      
+      <section class="similar-section">
+        <div class="similar-wrapper">
+          <button class="similar-hint right" id="similarScrollRight" title="السابق">›</button>
+          <div class="similar-scroll" id="similarScroll"></div>
+          <button class="similar-hint left" id="similarScrollLeft" title="التالي">‹</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Favorites View -->
+  <div id="favoritesView" style="display:none">
+    <main class="favorites-page">
+      <div class="favorites-top">
+        <div class="favorites-title-wrap">
+          <h1 class="page-title">
+            <svg class="heart-ico" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            التفضيلات
+          </h1>
+        </div>
+        <div class="favorites-actions-wrap">
+          <span class="favorites-count-badge" id="favCountBadge">0 أنمي</span>
+          <button class="back-btn small-btn" onclick="showHome()">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> رجوع
+          </button>
+        </div>
+      </div>
+      <div class="favorites-toolbar">
+        <div class="search-box favorites-search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="favSearchInput" placeholder="ابحث في مفضلاتك...">
+        </div>
+        <div class="filters" id="favFilters">
+          <button class="filter-btn active" data-filter="all">الكل</button>
+          <button class="filter-btn" data-filter="magic">سحر</button>
+          <button class="filter-btn" data-filter="action">أكشن</button>
+          <button class="filter-btn" data-filter="fantasy">فانتازيا</button>
+          <button class="filter-btn" data-filter="drama">دراما</button>
+          <button class="filter-btn" data-filter="romance">رومانسي</button>
+          <button class="filter-btn" data-filter="school">مدرسي</button>
+          <button class="filter-btn" data-filter="scifi">خيال علمي</button>
+        </div>
+      </div>
+      <div class="anime-grid" id="favoritesGrid"></div>
+    </main>
+  </div>
+
+  <!-- Saved View -->
+  <div id="savedView" style="display:none">
+    <main class="favorites-page">
+      <div class="favorites-top">
+        <div class="favorites-title-wrap">
+          <h1 class="page-title">
+            <svg class="heart-ico" viewBox="0 0 24 24" style="fill: none; stroke: #f59e0b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 12px rgba(245,158,11,0.4));">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+            المحفوظات
+          </h1>
+        </div>
+        <div class="favorites-actions-wrap">
+          <span class="favorites-count-badge" id="savedCountBadge">0 أنمي</span>
+          <button class="back-btn small-btn" onclick="showHome()">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> رجوع
+          </button>
+        </div>
+      </div>
+      <div class="anime-grid" id="savedGrid"></div>
+    </main>
+  </div>
+
+  <!-- Top Rated View -->
+  <div id="topRatedView" style="display:none">
+    <main class="favorites-page">
+      <div class="favorites-top">
+        <div class="favorites-title-wrap">
+          <h1 class="page-title">
+            <svg class="heart-ico" viewBox="0 0 24 24" style="fill: var(--gold); filter: drop-shadow(0 0 12px rgba(245,158,11,0.4));"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            الأعلى تقييماً
+          </h1>
+        </div>
+        <div class="favorites-actions-wrap">
+          <span class="favorites-count-badge" id="topRatedCountBadge">0 أنمي</span>
+          <button class="back-btn small-btn" onclick="showHome()">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> رجوع
+          </button>
+        </div>
+      </div>
+      <div class="anime-grid" id="topRatedGrid"></div>
+    </main>
+  </div>
+
+  <!-- Watch Later View -->
+  <div id="watchLaterView" style="display:none">
+    <main class="favorites-page">
+      <div class="favorites-top">
+        <div class="favorites-title-wrap">
+          <h1 class="page-title">
+            <svg class="heart-ico" viewBox="0 0 24 24" style="fill: none; stroke: #2dd4bf; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 12px rgba(13,148,136,0.4));">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            المشاهدة لاحقاً
+          </h1>
+        </div>
+        <div class="favorites-actions-wrap">
+          <span class="favorites-count-badge" id="wlCountBadge">0 أنمي</span>
+          <button class="back-btn small-btn" onclick="showHome()">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> رجوع
+          </button>
+        </div>
+      </div>
+      <div class="anime-grid" id="watchLaterGrid"></div>
+    </main>
+  </div>
+
+  <!-- Placeholder View -->
+  <div id="placeholderView" style="display:none">
+    <main class="favorites-page">
+      <div class="favorites-top">
+        <div class="favorites-title-wrap">
+          <h1 class="page-title" id="placeholderTitle">...</h1>
+        </div>
+        <div class="favorites-actions-wrap">
+          <button class="back-btn small-btn" onclick="showHome()">
+            <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> رجوع
+          </button>
+        </div>
+      </div>
+      <div class="favorites-empty" style="min-height: 40vh;">
+        <svg class="empty-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <strong>قريباً</strong>
+        <span>هذه الميزة ستكون متاحة قريباً</span>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div class="logo">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+      <span>مانجا <span class="tv">بلس</span></span>
+    </div>
+    <div class="social">
+      <a href="#" title="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      <a href="#" title="Twitter"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+      <a href="#" title="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      <a href="#" title="YouTube"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+    </div>
+    <p>© 2025 مانجا بلس — جميع الحقوق محفوظة / أحمد الداوودي</p>
+  </footer>
+</div>
+
+<!-- شريط التنقل السفلي الثابت -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bottom-nav-item" data-nav="downloads" aria-label="التحميلات">
+    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <span>التحميلات</span>
+  </button>
+  <button class="bottom-nav-item" data-nav="explore" aria-label="استكشاف">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+    <span>استكشاف</span>
+  </button>
+  <button class="bottom-nav-item center active" data-nav="home" aria-label="الرئيسية">
+    <div class="center-btn">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <span>الرئيسية</span>
+  </button>
+  <button class="bottom-nav-item" data-nav="saved" aria-label="المحفوظات">
+    <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    <span>المحفوظات</span>
+  </button>
+  <button class="bottom-nav-item" data-nav="favorites" aria-label="المفضلات">
+    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <span>المفضلات</span>
+  </button>
+</nav>
+
+<script>
+  const animeData = [
+    { title: "Black Clover", year: 2017, rating: 8.2, genre: ["magic","action"], status: "completed",
+      img: "https://cdn.myanimelist.net/images/anime/2/88336l.jpg", tags: ["سحر","أكشن"],
+      desc: "في عالم يحكمه السحر تماماً، وُلد أستا ويونو في كنيسة نائية بالقرية المشتركة. بينما حصل يونو على موهبة سحرية استثنائية، وُلد أستا بدون أي قوة سحرية على الإطلاق. رغم ذلك، لا يستسلم أستا أبداً، ويتدرب جسدياً بجنون ليصبح أقوى، محطماً كل المستحيلات. تنطلق رحلته وهو يحمل حلمه الأكبر: أن يصبح إمبراطور السحر القادم، محارباً بكتابه النادر المليء بالسيوف في طريقه لمواجهة العدو اللدود للبشرية، العيون الشيطانية.",
+      views: 1500000000, episodes: 170 },
+    { title: "Mashle: Magic and Muscles", year: 2023, rating: 7.8, genre: ["magic","action","school"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1218/135107l.jpg", tags: ["سحر","مدرسي"],
+      desc: "في عالم يسوده السحر، يُحكم فيه على من لا يمتلكه بالموت. يعيش ماش بورنيديد في الغابة مع والده، ويعتمد كلياً على عضلاته الأسطورية وقوته البدنية الخارقة. عندما يقرر الالتحاق بأكاديمية السحر ليحمي حياة والده، يجد نفسه مضطراً للنجاح دون استخدام أي سحر. رحلة كوميدية وحماسية مليئة بالمعارك الغاشمة، حيث يثبت ماش أن العضلات المفتولة يمكنها كسر أي تعويذة، محطماً قوانين السحر بقبضاته الحديدية.",
+      views: 450000000, episodes: 24 },
+    { title: "Fairy Tail", year: 2009, rating: 8.0, genre: ["magic","action"], status: "completed",
+      img: "https://cdn.myanimelist.net/images/anime/5/18179l.jpg", tags: ["سحر","مغامرة"],
+      desc: "في مملكة فيور، تنتشر نقابات السحرة التي تؤدي المهام مقابل المال. الفتاة لوسي هارتفيليا تحلم بالانضمام إلى النقابة الأقوى والأكثر شهرة، Fairy Tail. بعد لقائها بـ ناتس دراجنيل، ساحر النار الغامض، وقطه السعيد هابي، تتحقق أحلامها وتنضم إليهم في مغامرات لا تنتهي. تتوالى المهام الخطيرة والمعارك الملحمية ضد نقابات مظلمة وتنانين أسطوريين، في قصة تتغنى بأواصر الصداقة العائلية وقوة الإرادة.",
+      views: 2300000000, episodes: 328 },
+    { title: "Frieren: Beyond Journey's End", year: 2023, rating: 9.1, genre: ["magic","fantasy","drama"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1015/138006l.jpg", tags: ["سحر","فانتازيا"],
+      desc: "بعد رحلة استمرت عشر سنوات، ينجح فريق الأبطال في هزيمة ملك الشياطين، ويعودون أبطالاً منتصرين. فريرين، الساحرة الجنّية التي تعيش طويلاً، تشهد رحيل رفاقها البشر واحداً تلو الآخر عبر الزمن. تشعر بندم عميق لأنها لم تخصص الوقت الكافي لفهمهم، فتبدأ رحلة جديدة بمفردها. تأخذنا القصة في رحلة هادئة ومؤثرة لاستكشاف معنى الفناء، الصداقات، والذكريات، من خلال ساحرة تحاول فهم قلوب البشر الذين أحبوها.",
+      views: 800000000, episodes: 28 },
+    { title: "Mushoku Tensei", year: 2021, rating: 8.8, genre: ["magic","fantasy"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1530/117776l.jpg", tags: ["سحر","إيسيكاي"],
+      desc: "رجل عاش حياة بائسة وينتهي به المطاف ميتاً في حادث حافلة. يستيقظ ليجد نفسه قد أُعيد إحياؤه في عالم آخر مليء بالسحر، محتفظاً بذكرياته كشخص بالغ في جسد طفل. روديوس، أو رُودي، يقرر أن يعيش هذه المرة حياة كاملة لا يندم فيها على شيء. من خلال توجيه من ساحر عظيم، وصداقات مع عرقيات مختلفة، نتابع رحلة نموه الملحمية وهو يواجه تحديات ضخمة، ويحاول أن يصبح شخصاً أفضل مما كان.",
+      views: 600000000, episodes: 35 },
+    { title: "The Ancient Magus' Bride", year: 2017, rating: 8.3, genre: ["magic","drama"], status: "completed",
+      img: "https://cdn.myanimelist.net/images/anime/3/88472l.jpg", tags: ["سحر","دراما"],
+      desc: "شيسي هاتوري، فتاة يائسة بعد أن فقدت عائلتها وذاتها، تُباع في مزاد للعبيد. يشتريها ساحر غامض يُدعى إلياس إينيوورث، والذي يرتدي رأس جمجمة. يخبرها أنه سيجعلها تلميذته وزوجته المستقبلية. تنتقل شيسي إلى عالم السحر الإنجليزي الساحر والمليء بالكائنات الخيالية. نتابع رحلة شفاء نفسي بطيئة وجميلة، حيث تتعلم شيسي التمسك بالحياة، واكتشاف الدفء وسط السحر القديم.",
+      views: 350000000, episodes: 48 },
+    { title: "Jujutsu Kaisen", year: 2020, rating: 8.6, genre: ["magic","action","school"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg", tags: ["سحر","مدرسي"],
+      desc: "يوتا إيتادوري، طالب في المدرسة الثانوية ذو قوة بدنية جبارة، يبتلع إصبعاً ملعوناً من ملك اللعنات 'سوكونا' لإنقاذ أصدقائه. نتيجة لذلك، يصبح وعاءً لروح اللعنة الأقوى، ويحكم عليه بالإعدام. يُمنح فرصة أخيرة: الانضمام إلى مدرسة طوكيو للسحر والتقنية ليصبح 'ساحر جوجوتسو'. مع رفاقه الجدد، يخوض معارك دموية ضد أرواح ملعونة تولد من المشاعر البشرية السلبية في عالم مليء بالغموض والوحوش.",
+      views: 2800000000, episodes: 47 },
+    { title: "Attack on Titan", year: 2013, rating: 9.0, genre: ["action","fantasy"], status: "completed",
+      img: "https://cdn.myanimelist.net/images/anime/10/47347l.jpg", tags: ["أكشن","فانتازيا"],
+      desc: "منذ 100 عام، وجدت البشرية ملاذاً داخل أسوار ضخمة لحماية نفسها من العمالقة، الوحوش البشرية التي تلتهم البشر دون سبب. إيرين ياجر، طفل يعيش في بلدة شيجانشينا، يشهد فجأة كسر السور على يد عملاق عملاق أضخم من المعتاد. تُدمر مدينته وتُقتل والدته أمام عينيه. يقسم إيرين على إبادة كل العمالقة. ينضم إلى فيلق الاستطلاع في رحلة تحمل الكثير من الأسرار المظلمة عن أصل العمالقة، العالم الخارجي، وما يعنيه أن تكون حراً حقاً.",
+      views: 4200000000, episodes: 87 },
+    { title: "Demon Slayer", year: 2019, rating: 8.7, genre: ["action","fantasy"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg", tags: ["أكشن","شياطين"],
+      desc: "في عصر تايشو في اليابان، يعيش تانجيرو كامادو حياة سعيدة مع عائلته، حتى يُذبحون جميعاً بوحشية على يد شيطان. تنجو أخته الصغرى، نيزوكو، لكنها تتحول هي الأخرى إلى شيطانة. يقرر تانجيرو أن يصبح قاتل شياطين ليتعلم كيف يعيد أخته بشرية، ولينتقم لعائلته. رحلة مليئة بالمعارك الشرسة، الرسوم المتحركة المبهرة، والتقنيات التنفسية الفريدة، بينما يواجه تانجيرو أقوى الشياطين بمساعدة أصدقائه.",
+      views: 3500000000, episodes: 63 },
+    { title: "Your Name", year: 2016, rating: 8.9, genre: ["romance","drama","school"], status: "completed",
+      img: "https://cdn.myanimelist.net/images/anime/5/87048l.jpg", tags: ["رومانسي","مدرسي"],
+      desc: "ميتسوها، فتاة تعيش في بلدة ريفية، وتاكي، فتى يعيش في قلب طوكيو الصاخب. يجدان نفسيهما فجأة يتبادلان الأجساد أثناء النوم. في البداية يعتقدان أنه حلم، لكن مع تكرار الأمر، يبدآن في التواصل وترك ملاحظات لبعضهما. تنشأ بينهما رابطة غامضة وجميلة. عندما تبدأ الأحداث تأخذ منحى مأساوياً، يدرك تاكي أن هذه الظاهرة ليست مجرد صدفة، بل شيء يتعلق بالزمن، المصير، وحدث كارثي يهدد حياة ميتسوها، في قصة حب تسافر عبر الزمن لتنقذ حياة.",
+      views: 1800000000, episodes: 1 },
+    { title: "Death Note", year: 2006, rating: 9.0, genre: ["drama"], status: "completed",
+      img: "https://cdn.myanimelist.net/images/anime/9/9453l.jpg", tags: ["غموض","دراما"],
+      desc: "لايت ياغامي، طالب ثانوي عبقري ومتفوق، يملأه الضجر من العالم الفاسد. يجد مذكرة غامضة تسقط من السماء تحمل اسم 'مذكرة الموت'. مكتوب في تعليماتها أن من يُكتب اسمه فيها وهو يتخيل وجهه، سيموت. يجرب لايت المذكرة ويبدأ في قتل المجرمين، متخذاً لقب 'كيرا' (الإله الجديد) لخلق عالم مثالي. تتصاعد الأحداث كحرب باردة من الذكاء عندما يبدأ المحقق الأسطوري الغامض 'L' في مطاردة كيرا، في لعبة عقلية معقدة ومثيرة مليئة بالتخطيط والمناورات.",
+      views: 3900000000, episodes: 37 },
+    { title: "One Piece", year: 1999, rating: 8.9, genre: ["action","fantasy"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/6/73245l.jpg", tags: ["مغامرة","أكشن"],
+      desc: "مونكي دي لوفي، فتى يحلم بأن يصبح ملك القراصنة، يأكل فاكهة شيطان غامضة تمنحه جسداً مطاطياً لكنها تحرمه من القدرة على السباحة. ينطلق لوفي في رحلة بحث عن الكنز الأسطوري 'ون بيس' برفقة طاقم من القراصنة المميزين، كل واحد منهم يحمل حلمه وقصته. رحلة ملحمية مليئة بالمغامرات، المعارك البحرية، والصداقات التي تتحدى المستحيل في عالم واسع تحكمه البحار والقراصنة.",
+      views: 5000000000, episodes: 1100 },
+    { title: "Naruto", year: 2002, rating: 8.4, genre: ["action","fantasy"], status: "completed",
+      img: "https://cdn.myanimelist.net/images/anime/13/17405l.jpg", tags: ["نينجا","أكشن"],
+      desc: "ناروتو أوزوماكي، طفل يحمل بداخله روح الثعلب ذي التسعة ذيول، يُنبذ من قريته كونوها منذ ولادته. يحلم بأن يصبح الهوكاجي، زعيم القرية، ليكسب احترام الجميع. رغم فشله المتكرر، لا يستسلم أبداً، ويخوض رحلة تدريب طويلة مع رفاقه ساسكي وساكورا تحت إشراف كاكاشي، ليصبح نينجا حقيقياً ويواجه منظمات مظلمة تهدد عالم النينجا بأكمله.",
+      views: 3800000000, episodes: 220 },
+    { title: "My Hero Academia", year: 2016, rating: 8.0, genre: ["action","school"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/10/78745l.jpg", tags: ["أبطال","مدرسي"],
+      desc: "في عالم انتشرت فيه القدرات الخارقة 'الكواكب'، أصبح معظم الناس أبطالاً، لكن إيزوكو ميدوريا وُلد بلا أي قدرة. رغم ذلك، يحلم بالالتحاق بأكاديمية UA للتدريب على البطولة. عندما ينقذ حياة البطل الأسطوري أول مايت، يقرر الأخير منحه قدرته 'ون فور أول'. تبدأ رحلة ميدوريا في مدرسة الأبطال، حيث يواجه تحديات قاسية ويخوض معارك ضد الأشرار، متعلماً معنى البطولة الحقيقية.",
+      views: 1600000000, episodes: 138 },
+    { title: "Chainsaw Man", year: 2022, rating: 8.5, genre: ["action","fantasy"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1806/126216l.jpg", tags: ["شياطين","أكشن"],
+      desc: "دينجي، فتى يعيش حياة بائسة كصياد شياطين لسداد ديون والده المتوفى. بعد خيانة شريكه، يموت دينجي ويُعاد إحياؤه من قبل شيطان المنشار بوذي، الذي يصبح قلبه. ينضم إلى منظمة قتلة الشياطين العامة، ويخوض معارك دموية ضد شياطين مرعبة، محاولاً تحقيق أحلامه البسيطة وسط عالم قاسٍ مليء بالخيانة والفوضى.",
+      views: 900000000, episodes: 12 },
+    { title: "Spy x Family", year: 2022, rating: 8.5, genre: ["action","school"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1441/122795l.jpg", tags: ["كوميدي","عائلي"],
+      desc: "عميل سري محترف يُعرف بـ 'الشفق' يتلقى مهمة خطيرة تتطلب تكوين عائلة وهمية. يتبنى فتاة صغيرة تُدعى أنيا، ويتزوج من يور، موظفة بلدية... دون أن يعلم أن أنيا قارئة أفكار، وأن يور قاتلة مأجورة. تنشأ عائلة غريبة وكوميدية، حيث يخفي كل فرد سرّه عن الآخر، في مزيج من الأكشن والكوميديا والدفء العائلي.",
+      views: 1200000000, episodes: 37 },
+    { title: "Steins;Gate", year: 2011, rating: 9.0, genre: ["scifi","drama"], status: "completed",
+      img: "https://cdn.myanimelist.net/images/anime/1935/127974l.jpg", tags: ["خيال علمي","غموض"],
+      desc: "أوكابي، عالِم مجنون يهوى الأبحاث، يكتشف بالصدفة طريقة لإرسال رسائل إلى الماضي عبر الميكروويف المحوّر. يبدأ برفقة أصدقائه في مختبره الصغير بتجربة السفر عبر الزمن، ليكتشفوا أن كل تغيير في الماضي يخلق خطاً زمنياً جديداً، وأنهم تورطوا في مؤامرة أكبر بكثير. رحلة مليئة بالغموض والدراما، حيث يحاول أوكابي إصلاح ما أفسده رفاقه وإنقاذ من يحب.",
+      views: 700000000, episodes: 24 },
+    { title: "Cyberpunk: Edgerunners", year: 2022, rating: 8.6, genre: ["scifi","action"], status: "completed",
+      img: "https://cdn.myanimelist.net/images/anime/1818/126693l.jpg", tags: ["خيال علمي","أكشن"],
+      desc: "في مدينة نايت سيتي المستقبلية، حيث يسود الفساد والتقنيات الجسدية، يفقد الشاب ديفيد عائلته في حادث مأساوي. بعد تركيبه لزرع نخاعي عسكري، ينضم إلى عالم المرتزقة 'الإيدجرانرز'، مرتدياً زي 'سايبورغ'. في عالم من الأدرينالين والجريمة والمؤامرات، يحاول ديفيد العثور على هويته وسط انهيار جسده وعقله، في قصة مأساوية وسريعة الإيقاع.",
+      views: 500000000, episodes: 10 },
+    { title: "Solo Leveling", year: 2024, rating: 8.6, genre: ["action","fantasy"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1926/140552l.jpg", tags: ["أكشن","فانتازيا"],
+      desc: "في عالم مليء بالبوابات والوحوش، يُعرف سونغ جين وو بأنه أضعف صياد. بعد حادث مأساوي، يستيقظ ليجد نفسه يمتلك قدرة غامضة تسمح له بالتحول إلى ظل. يبدأ رحلة صعود من أضعف صياد إلى أقوى ظل في العالم.",
+      views: 1500000000, episodes: 12 },
+    { title: "Dandadan", year: 2024, rating: 8.7, genre: ["action","scifi"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1735/144961l.jpg", tags: ["أكشن","خيال علمي"],
+      desc: "مومو، فتاة تؤمن بالأشباح، وأوكارون، فتى يؤمن بالكائنات الفضائية. يتحدان لمواجهة قوى خارقة للطبيعة في مزيج من الأكشن والكوميديا.",
+      views: 800000000, episodes: 12 },
+    { title: "Gachiakuta", year: 2025, rating: 8.5, genre: ["action","fantasy"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1362/143220l.jpg", tags: ["أكشن","فانتازيا"],
+      desc: "في عالم يعيش فيه البشر على جزيرة عائمة، يُتهم لودو بجريمة لم يرتكبها ويُلقى به إلى الهاوية. ينضم إلى مجموعة من المهمشين الذين يحولون النفايات إلى أسلحة، في قصة انتقام مظلمة.",
+      views: 600000000, episodes: 24 },
+    { title: "Clevatess", year: 2025, rating: 8.4, genre: ["fantasy","action"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1016/145289l.jpg", tags: ["فانتازيا","أكشن"],
+      desc: "بعد هزيمة ملك الشياطين، يجد البطل نفسه في عالم غريب. قصة فانتازيا مظلمة تستكشف صراع البشر مع الوحوش.",
+      views: 400000000, episodes: 12 }
+  ];
+
+  const newReleases = [
+    { title: "Black Clover", year: 2026, rating: 8.2, genre: ["magic","action"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/2/88336l.jpg", tags: ["سحر","أكشن"],
+      desc: "في عالم يحكمه السحر تماماً، وُلد أستا ويونو في كنيسة نائية بالقرية المشتركة. بينما حصل يونو على موهبة سحرية استثنائية، وُلد أستا بدون أي قوة سحرية على الإطلاق. رغم ذلك، لا يستسلم أستا أبداً، ويتدرب جسدياً بجنون ليصبح أقوى، محطماً كل المستحيلات. تنطلق رحلته وهو يحمل حلمه الأكبر: أن يصبح إمبراطور السحر القادم، محارباً بكتابه النادر المليء بالسيوف في طريقه لمواجهة العدو اللدود للبشرية، العيون الشيطانية.",
+      views: 1500000000, episodes: 170 },
+    { title: "Demon Slayer", year: 2025, rating: 8.7, genre: ["action","fantasy"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg", tags: ["أكشن","شياطين"],
+      desc: "في عصر تايشو في اليابان، يعيش تانجيرو كامادو حياة سعيدة مع عائلته، حتى يُذبحون جميعاً بوحشية على يد شيطان. تنجو أخته الصغرى، نيزوكو، لكنها تتحول هي الأخرى إلى شيطانة. يقرر تانجيرو أن يصبح قاتل شياطين ليتعلم كيف يعيد أخته بشرية، ولينتقم لعائلته. رحلة مليئة بالمعارك الشرسة، الرسوم المتحركة المبهرة، والتقنيات التنفسية الفريدة، بينما يواجه تانجيرو أقوى الشياطين بمساعدة أصدقائه.",
+      views: 3500000000, episodes: 63 },
+    { title: "Solo Leveling", year: 2025, rating: 8.6, genre: ["action","fantasy"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1926/140552l.jpg", tags: ["أكشن","فانتازيا"],
+      desc: "في عالم مليء بالبوابات والوحوش، يُعرف سونغ جين وو بأنه أضعف صياد. بعد حادث مأساوي، يستيقظ ليجد نفسه يمتلك قدرة غامضة تسمح له بالتحول إلى ظل. يبدأ رحلة صعود من أضعف صياد إلى أقوى ظل في العالم.",
+      views: 1500000000, episodes: 12 },
+    { title: "Jujutsu Kaisen", year: 2026, rating: 8.6, genre: ["magic","action","school"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg", tags: ["سحر","مدرسي"],
+      desc: "يوتا إيتادوري، طالب في المدرسة الثانوية ذو قوة بدنية جبارة، يبتلع إصبعاً ملعوناً من ملك اللعنات 'سوكونا' لإنقاذ أصدقائه. نتيجة لذلك، يصبح وعاءً لروح اللعنة الأقوى، ويحكم عليه بالإعدام. يُمنح فرصة أخيرة: الانضمام إلى مدرسة طوكيو للسحر والتقنية ليصبح 'ساحر جوجوتسو'. مع رفاقه الجدد، يخوض معارك دموية ضد أرواح ملعونة تولد من المشاعر البشرية السلبية في عالم مليء بالغموض والوحوش.",
+      views: 2800000000, episodes: 47 },
+    { title: "One Piece", year: 2026, rating: 8.9, genre: ["action","fantasy"], status: "ongoing",
+      img: "https://cdn.myanimelist.net/images/anime/6/73245l.jpg", tags: ["مغامرة","أكشن"],
+      desc: "مونكي دي لوفي، فتى يحلم بأن يصبح ملك القراصنة، يأكل فاكهة شيطان غامضة تمنحه جسداً مطاطياً لكنها تحرمه من القدرة على السباحة. ينطلق لوفي في رحلة بحث عن الكنز الأسطوري 'ون بيس' برفقة طاقم من القراصنة المميزين، كل واحد منهم يحمل حلمه وقصته. رحلة ملحمية مليئة بالمغامرات، المعارك البحرية، والصداقات التي تتحدى المستحيل في عالم واسع تحكمه البحار والقراصنة.",
+      views: 5000000000, episodes: 1100 }
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const STORAGE_KEY = 'mangaPlusFavorites';
+  const WATCH_LATER_KEY = 'mangaPlusWatchLater';
+  const SAVED_KEY = 'mangaPlusSaved';
+
+  let favorites = [], watchLater = [], saved = [];
+  try { favorites = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch (e) { favorites = []; }
+  if (!Array.isArray(favorites)) favorites = [];
+  try { watchLater = JSON.parse(localStorage.getItem(WATCH_LATER_KEY)) || []; } catch (e) { watchLater = []; }
+  if (!Array.isArray(watchLater)) watchLater = [];
+  try { saved = JSON.parse(localStorage.getItem(SAVED_KEY)) || []; } catch (e) { saved = []; }
+  if (!Array.isArray(saved)) saved = [];
+
+  let homeFilter = 'all', homeSearch = '', favFilter = 'all', favSearch = '', currentAnime = null;
+  let selectedServerName = 'سيرفر 1';
+  let selectedServerQuality = '240p';
+
+  // ===== إعدادات روابط المواقع =====
+  let currentEpisode = 1;
+  const TELEGRAM_BASE = 'https://t.me/lw_qf/';
+  const TELEGRAM_START_EPISODE_ID = 80; // معرف الحلقة الأولى في القناة
+  const WITANIME_BASE = 'https://witanime.you/episode/';
+  const ANIME4UP_BASE = 'https://anime4up.rest/episode/';
+
+  const views = {
+    home: $('homeView'),
+    watch: $('watchView'),
+    fav: $('favoritesView'),
+    saved: $('savedView'),
+    topRated: $('topRatedView'),
+    wl: $('watchLaterView'),
+    placeholder: $('placeholderView')
+  };
+
+  const playerState = { playing: false, time: 0, duration: 24 * 60, muted: false, timer: null };
+  const HEART_SVG = '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+  const STAR_SVG  = '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+  const CLOCK_SVG = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+  const SAVE_SVG  = '<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
+
+  function formatViews(v) {
+    if (v >= 1e9) return (v / 1e9).toFixed(1).replace('.0', '') + ' مليار';
+    if (v >= 1e6) return (v / 1e6).toFixed(1).replace('.0', '') + ' مليون';
+    return v.toLocaleString('ar-EG');
+  }
+  function formatTime(s) { const m = Math.floor(s / 60); const sec = Math.floor(s % 60); return m + ':' + String(sec).padStart(2, '0'); }
+
+  // ===== دوال بناء الروابط =====
+  function slugify(text) {
+    return text.toString().toLowerCase()
+      .replace(/\s+/g, '-')           // مسافات إلى شرطات
+      .replace(/[^\w\-]+/g, '')       // إزالة الرموز غير المرغوبة
+      .replace(/\-\-+/g, '-')         // شرطات متعددة إلى واحدة
+      .replace(/^-+/, '')             // إزالة الشرطات من البداية
+      .replace(/-+$/, '');            // إزالة الشرطات من النهاية
+  }
+
+  function getEpisodeTelegramLink() {
+    const id = TELEGRAM_START_EPISODE_ID + (currentEpisode - 1);
+    return TELEGRAM_BASE + id;
+  }
+
+  function getWitanimeEpisodeLink() {
+    if (!currentAnime) return '#';
+    const slug = slugify(currentAnime.title);
+    // نمط شائع: /episode/{slug}-الحلقة-{episode}/
+    return `${WITANIME_BASE}${slug}-الحلقة-${currentEpisode}/`;
+  }
+
+  function getAnime4upEpisodeLink() {
+    if (!currentAnime) return '#';
+    const slug = slugify(currentAnime.title);
+    // نمط شائع: /episode/{slug}-الحلقة-{episode}/
+    return `${ANIME4UP_BASE}${slug}-الحلقة-${currentEpisode}/`;
+  }
+
+  // روابط بحث احتياطية
+  function getWitanimeSearchLink() {
+    if (!currentAnime) return '#';
+    return `https://witanime.you/?s=${encodeURIComponent(currentAnime.title + ' الحلقة ' + currentEpisode)}`;
+  }
+
+  function getAnime4upSearchLink() {
+    if (!currentAnime) return '#';
+    return `https://anime4up.rest/?s=${encodeURIComponent(currentAnime.title + ' الحلقة ' + currentEpisode)}`;
+  }
+
+  function openEpisodeVideo() {
+    if (!currentAnime) return;
+    window.open(getEpisodeTelegramLink(), '_blank');
+  }
+
+  function openWitanimeEpisode() {
+    if (!currentAnime) return;
+    // فتح الرابط المباشر، وإذا لم يعمل يمكن للمستخدم استخدام البحث
+    window.open(getWitanimeEpisodeLink(), '_blank');
+  }
+
+  function openAnime4upEpisode() {
+    if (!currentAnime) return;
+    window.open(getAnime4upEpisodeLink(), '_blank');
+  }
+
+  const isFav = (title) => favorites.includes(title);
+  const isInWatchLater = (title) => watchLater.includes(title);
+  const isSaved = (title) => saved.includes(title);
+
+  function toggleFavorite(title) {
+    const i = favorites.indexOf(title);
+    if (i > -1) favorites.splice(i, 1); else favorites.push(title);
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites)); } catch (e) {}
+    updateFavUI();
+  }
+
+  function toggleWatchLater(title) {
+    const i = watchLater.indexOf(title);
+    if (i > -1) watchLater.splice(i, 1); else watchLater.push(title);
+    try { localStorage.setItem(WATCH_LATER_KEY, JSON.stringify(watchLater)); } catch (e) {}
+    updateWatchLaterUI();
+  }
+
+  function toggleSaved(title) {
+    const i = saved.indexOf(title);
+    if (i > -1) saved.splice(i, 1); else saved.push(title);
+    try { localStorage.setItem(SAVED_KEY, JSON.stringify(saved)); } catch (e) {}
+    updateSavedUI();
+  }
+
+  function updateFavUI() {
+    const count = favorites.length;
+    const badge = $('favSidebarBadge');
+    badge.textContent = count;
+    badge.style.display = count ? 'inline-block' : 'none';
+    $('favCountBadge').textContent = count + ' أنمي';
+    document.querySelectorAll('.card-fav-btn').forEach(btn => { btn.classList.toggle('active', isFav(btn.dataset.title)); });
+    updateWatchFavBtn();
+    if (views.fav.style.display !== 'none') renderFavorites();
+  }
+
+  function updateWatchLaterUI() {
+    const count = watchLater.length;
+    const badge = $('wlSidebarBadge');
+    if (badge) { badge.textContent = count; badge.style.display = count ? 'inline-block' : 'none'; }
+    const countBadge = $('wlCountBadge');
+    if (countBadge) countBadge.textContent = count + ' أنمي';
+    updateWatchLaterBtn();
+    document.querySelectorAll('.card-wl-btn').forEach(btn => {
+      btn.classList.toggle('active', isInWatchLater(btn.dataset.title));
+    });
+  }
+
+  function updateSavedUI() {
+    const count = saved.length;
+    const badge = $('savedSidebarBadge');
+    if (badge) { badge.textContent = count; badge.style.display = count ? 'inline-block' : 'none'; }
+    const countBadge = $('savedCountBadge');
+    if (countBadge) countBadge.textContent = count + ' أنمي';
+    document.querySelectorAll('.card-save-btn').forEach(btn => {
+      btn.classList.toggle('active', isSaved(btn.dataset.title));
+    });
+    updateWatchSaveBtn();
+    if (views.saved.style.display !== 'none') renderSaved();
+  }
+
+  function updateWatchLaterBtn() {
+    if (!currentAnime) return;
+    const btn = $('watchLaterBtn');
+    if (!btn) return;
+    const isWL = isInWatchLater(currentAnime.title);
+    btn.classList.toggle('active-action', isWL);
+    const label = btn.querySelector('span');
+    if (label) label.textContent = isWL ? 'في المشاهدة لاحقاً' : 'لاحقاً';
+  }
+
+  function updateWatchSaveBtn() {
+    if (!currentAnime) return;
+    const btn = $('watchSaveBtn');
+    if (!btn) return;
+    const isS = isSaved(currentAnime.title);
+    btn.classList.toggle('active-action', isS);
+    const label = $('watchSaveLabel');
+    if (label) label.textContent = isS ? 'محفوظ' : 'للحفظ';
+  }
+
+  function createAnimeCard(anime, delay = 0, mode = 'default') {
+    const card = document.createElement('div');
+    card.className = 'anime-card';
+    card.style.animationDelay = delay + 'ms';
+    const statusText  = anime.status === 'ongoing' ? 'مستمر' : 'مكتمل';
+    const statusClass = anime.status === 'ongoing' ? 'status-ongoing' : 'status-completed';
+
+    let primaryBtnHtml = '';
+    let secondaryBtnHtml = '';
+
+    if (mode === 'watchlater') {
+      primaryBtnHtml = `<button class="card-wl-btn active" data-title="${anime.title}" aria-label="إزالة من المشاهدة لاحقاً">${CLOCK_SVG}</button>`;
+      secondaryBtnHtml = `<button class="card-save-btn pos-2 ${isSaved(anime.title) ? 'active' : ''}" data-title="${anime.title}" aria-label="حفظ">${SAVE_SVG}</button>`;
+    } else if (mode === 'saved') {
+      primaryBtnHtml = `<button class="card-save-btn active" data-title="${anime.title}" aria-label="إزالة من المحفوظات">${SAVE_SVG}</button>`;
+    } else {
+      primaryBtnHtml = `<button class="card-fav-btn ${isFav(anime.title) ? 'active' : ''}" data-title="${anime.title}" aria-label="إضافة للمفضلة">${HEART_SVG}</button>`;
+      secondaryBtnHtml = `<button class="card-save-btn pos-2 ${isSaved(anime.title) ? 'active' : ''}" data-title="${anime.title}" aria-label="حفظ">${SAVE_SVG}</button>`;
+    }
+
+    card.innerHTML = `
+      <div class="card-img" style="background-image:url('${anime.img}')">
+        <div class="rating">${STAR_SVG} ${anime.rating.toFixed(1)}</div>
+        <span class="status-badge ${statusClass}">${statusText}</span>
+        ${primaryBtnHtml}
+        ${secondaryBtnHtml}
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">${anime.title}</h3>
+        <div class="card-meta"><span>${anime.year}</span><span>${anime.episodes} حلقة</span></div>
+        <div class="genres">${anime.tags.map(t => `<span class="genre-tag">${t}</span>`).join('')}</div>
+      </div>`;
+
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.card-fav-btn') || e.target.closest('.card-wl-btn') || e.target.closest('.card-save-btn')) return;
+      openWatch(anime);
+    });
+
+    const wlBtn = card.querySelector('.card-wl-btn');
+    if (wlBtn) {
+      wlBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        card.classList.add('removing');
+        setTimeout(() => {
+          card.remove();
+          toggleWatchLater(anime.title);
+          if (watchLater.length === 0) renderWatchLater();
+        }, 300);
+      });
+    }
+
+    const saveBtn = card.querySelector('.card-save-btn');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (mode === 'saved') {
+          card.classList.add('removing');
+          setTimeout(() => {
+            card.remove();
+            toggleSaved(anime.title);
+            if (saved.length === 0) renderSaved();
+          }, 300);
+        } else {
+          toggleSaved(anime.title);
+        }
+      });
+    }
+
+    const favBtn = card.querySelector('.card-fav-btn');
+    if (favBtn) {
+      favBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleFavorite(anime.title); });
+    }
+
+    return card;
+  }
+
+  function renderNewReleases() {
+    const grid = $('newReleasesGrid'); grid.innerHTML = '';
+    newReleases.forEach((a, i) => grid.appendChild(createAnimeCard(a, i * 35)));
+  }
+
+  function renderAnimeGrid() {
+    const grid = $('animeGrid'); grid.innerHTML = '';
+    const q = homeSearch.toLowerCase();
+    const list = animeData.filter(a => (homeFilter === 'all' || a.genre.includes(homeFilter)) && (!q || a.title.toLowerCase().includes(q)));
+    if (!list.length) { grid.innerHTML = `<div class="favorites-empty" style="grid-column:1/-1"><strong>لا توجد نتائج</strong><span>جرّب كلمة بحث أخرى أو فلتراً مختلفاً</span></div>`; return; }
+    list.forEach((a, i) => grid.appendChild(createAnimeCard(a, i * 35)));
+  }
+  function renderRecGrid() {
+    const grid = $('recGrid'); grid.innerHTML = '';
+    [...animeData].sort((a, b) => b.rating - a.rating).slice(0, 6).forEach((a, i) => {
+      const card = document.createElement('div');
+      card.className = 'rec-card';
+      card.style.animationDelay = (i * 40) + 'ms';
+      card.innerHTML = `<div class="rec-img" style="background-image:url('${a.img}')"></div>
+        <div class="rec-info"><h4>${a.title}</h4><div class="rec-meta">${a.year} • ${a.episodes} حلقة</div><div class="rec-score">${STAR_SVG} ${a.rating.toFixed(1)}</div></div>`;
+      card.addEventListener('click', () => openWatch(a));
+      grid.appendChild(card);
+    });
+  }
+  function renderFavorites() {
+    const grid = $('favoritesGrid'); grid.innerHTML = '';
+    const favList = animeData.filter(a => isFav(a.title));
+    const q = favSearch.toLowerCase();
+    const filtered = favList.filter(a => (favFilter === 'all' || a.genre.includes(favFilter)) && (!q || a.title.toLowerCase().includes(q)));
+    if (!filtered.length) {
+      grid.innerHTML = `<div class="favorites-empty"><svg class="empty-ico" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <strong>${favList.length ? 'لا توجد نتائج مطابقة' : 'لا توجد مفضلات بعد'}</strong>
+        <span>${favList.length ? 'جرّب تغيير الفلتر أو كلمة البحث' : 'اضغط على أيقونة القلب في أي أنمي لإضافته هنا'}</span></div>`;
+      return;
+    }
+    filtered.forEach((a, i) => grid.appendChild(createAnimeCard(a, i * 35)));
+  }
+  function renderSaved() {
+    const grid = $('savedGrid'); grid.innerHTML = '';
+    const list = animeData.filter(a => isSaved(a.title));
+    if (!list.length) {
+      grid.innerHTML = `<div class="favorites-empty">
+        <svg class="empty-ico" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <strong>لا توجد عناصر محفوظة</strong>
+        <span>اضغط على زر "للحفظ" في صفحة أي أنمي، أو أيقونة المرجعية على البطاقة لإضافتها هنا</span>
+      </div>`;
+      return;
+    }
+    list.forEach((a, i) => grid.appendChild(createAnimeCard(a, i * 35, 'saved')));
+  }
+  function renderTopRated() {
+    const grid = $('topRatedGrid'); grid.innerHTML = '';
+    const sorted = [...animeData].filter(a => a.rating >= 6.5).sort((a, b) => b.rating - a.rating);
+    $('topRatedCountBadge').textContent = sorted.length + ' أنمي';
+    sorted.forEach((a, i) => grid.appendChild(createAnimeCard(a, i * 35)));
+  }
+  function renderWatchLater() {
+    const grid = $('watchLaterGrid'); grid.innerHTML = '';
+    const list = animeData.filter(a => isInWatchLater(a.title));
+    if (!list.length) {
+      grid.innerHTML = `<div class="favorites-empty">
+        <svg class="empty-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <strong>لا توجد عناصر في المشاهدة لاحقاً</strong>
+        <span>اضغط على زر "لاحقاً" في صفحة أي أنمي لإضافته هنا</span>
+      </div>`;
+      return;
+    }
+    list.forEach((a, i) => grid.appendChild(createAnimeCard(a, i * 35, 'watchlater')));
+  }
+
+  function closeSidebar() { $('sidebar').classList.remove('open'); $('sidebarOverlay').classList.remove('show'); }
+  function hideAllViews() { Object.keys(views).forEach(k => { views[k].style.display = 'none'; }); }
+  function setActiveNav(name) {
+    document.querySelectorAll('.bottom-nav-item').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.nav === name);
+    });
+  }
+
+  function showHome(e) {
+    if (e) e.preventDefault();
+    hideAllViews(); views.home.style.display = 'block';
+    setActiveNav('home'); closeSidebar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function showFavorites() {
+    hideAllViews(); views.fav.style.display = 'block';
+    renderFavorites(); setActiveNav('favorites'); closeSidebar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function showSaved() {
+    hideAllViews(); views.saved.style.display = 'block';
+    renderSaved(); setActiveNav('saved'); closeSidebar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function showTopRated() {
+    hideAllViews(); views.topRated.style.display = 'block';
+    renderTopRated(); setActiveNav('explore'); closeSidebar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function showWatchLater() {
+    hideAllViews(); views.wl.style.display = 'block';
+    renderWatchLater(); closeSidebar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function showPlaceholder(title) {
+    hideAllViews(); views.placeholder.style.display = 'block';
+    $('placeholderTitle').textContent = title;
+    closeSidebar(); window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function openWatch(anime) {
+    currentAnime = anime;
+    currentEpisode = 1; // إعادة ضبط رقم الحلقة عند فتح أنمي جديد
+    hideAllViews(); views.watch.style.display = 'block';
+    $('breadcrumbTitle').textContent = anime.title;
+    $('watchTitle').textContent = anime.title;
+    $('watchRating').textContent = anime.rating.toFixed(1);
+    $('statRating').textContent = anime.rating.toFixed(1);
+    $('statViews').textContent = formatViews(anime.views);
+    $('statEpisodes').textContent = anime.episodes;
+    $('statYear').textContent = anime.year;
+    $('watchDesc').textContent = anime.desc;
+    $('watchTags').innerHTML = anime.tags.map(t => `<span class="genre-tag">${t}</span>`).join('');
+    $('playerBg').style.backgroundImage = `url('${anime.img}')`;
+    $('videoFrame').style.backgroundImage = `url('${anime.img}')`;
+    $('nowPlayingOverlay').textContent = 'الحلقة 1';
+    resetPlayer();
+    updateWatchFavBtn();
+    updateWatchLaterBtn();
+    updateWatchSaveBtn();
+    renderEpisodes(anime);
+    renderSimilar(anime);
+    
+    document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.server-btn[data-server="1"]').classList.add('active');
+    selectedServerName = 'سيرفر 1';
+    selectedServerQuality = '240p';
+
+    closeSidebar();
+    window.scrollTo({ top: 0 });
+  }
+  function updateWatchFavBtn() {
+    if (!currentAnime) return;
+    const btn = $('watchFavBtn');
+    const fav = isFav(currentAnime.title);
+    btn.classList.toggle('favorited', fav);
+    $('watchFavLabel').textContent = fav ? 'في المفضلة' : 'مفضلة';
+  }
+  function renderEpisodes(anime) {
+    const grid = $('episodesGrid'); grid.innerHTML = '';
+    $('episodesCount').textContent = anime.episodes + ' حلقة';
+    for (let i = 1; i <= anime.episodes; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'episode-btn' + (i === 1 ? ' active' : '');
+      btn.textContent = i;
+      btn.addEventListener('click', () => selectEpisode(i, btn));
+      grid.appendChild(btn);
+    }
+  }
+  function selectEpisode(n, btn) {
+    currentEpisode = n; // حفظ رقم الحلقة المختارة
+    document.querySelectorAll('.episode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    $('nowPlayingOverlay').textContent = 'الحلقة ' + n;
+    resetPlayer();
+  }
+  function renderSimilar(anime) {
+    const scroll = $('similarScroll'); scroll.innerHTML = '';
+    let sims = animeData.filter(a => a.title !== anime.title && a.genre.some(g => anime.genre.includes(g)));
+    if (sims.length < 4) { const rest = animeData.filter(a => a.title !== anime.title && !sims.includes(a)); sims = sims.concat(rest); }
+    sims.slice(0, 10).forEach((a) => scroll.appendChild(createAnimeCard(a)));
+  }
+
+  const videoPlayer = $('videoPlayer');
+  function updateProgressUI() {
+    const pct = (playerState.time / playerState.duration) * 100;
+    $('progressFill').style.width = pct + '%';
+    $('timeDisplay').textContent = formatTime(playerState.time) + ' / ' + formatTime(playerState.duration);
+  }
+  function updatePlayPauseIcon() {
+    $('playPauseIcon').innerHTML = playerState.playing ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
+  }
+  function startTick() {
+    clearInterval(playerState.timer);
+    playerState.timer = setInterval(() => {
+      playerState.time += 1;
+      if (playerState.time >= playerState.duration) {
+        playerState.time = playerState.duration;
+        updateProgressUI();
+        if (playerState.playing) togglePlay();
+        return;
+      }
+      updateProgressUI();
+    }, 1000);
+  }
+  function togglePlay() {
+    playerState.playing = !playerState.playing;
+    videoPlayer.classList.toggle('playing', playerState.playing);
+    updatePlayPauseIcon();
+    if (playerState.playing) { videoPlayer.classList.add('show-controls'); startTick(); }
+    else { clearInterval(playerState.timer); videoPlayer.classList.add('show-controls'); }
+  }
+  function resetPlayer() {
+    clearInterval(playerState.timer); playerState.playing = false; playerState.time = 0;
+    videoPlayer.classList.remove('playing'); updatePlayPauseIcon(); updateProgressUI();
+  }
+  videoPlayer.addEventListener('click', (e) => {
+    if (e.target.closest('.controls-bar') || e.target.closest('.quality-menu')) return;
+    openEpisodeVideo(); // فتح الحلقة في تلغرام
+  });
+  let controlsTimer;
+  videoPlayer.addEventListener('mousemove', () => {
+    videoPlayer.classList.add('show-controls');
+    clearTimeout(controlsTimer);
+    controlsTimer = setTimeout(() => { if (playerState.playing) videoPlayer.classList.remove('show-controls'); }, 2500);
+  });
+  videoPlayer.addEventListener('mouseleave', () => { if (playerState.playing) { clearTimeout(controlsTimer); videoPlayer.classList.remove('show-controls'); } });
+
+  // زر التشغيل الكبير → فتح الحلقة في تلغرام
+  $('bigPlayBtn').addEventListener('click', (e) => { e.stopPropagation(); openEpisodeVideo(); });
+
+  // زر التشغيل/الإيقاف في شريط التحكم → فتح الحلقة في تلغرام
+  $('playPauseBtn').addEventListener('click', (e) => { e.stopPropagation(); openEpisodeVideo(); });
+
+  // أزرار المواقع الخارجية
+  $('tgLinkBtn').addEventListener('click', openEpisodeVideo);
+  $('witLinkBtn').addEventListener('click', openWitanimeEpisode);
+  $('a4uLinkBtn').addEventListener('click', openAnime4upEpisode);
+
+  document.querySelectorAll('.skip-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const d = parseInt(btn.dataset.skip, 10);
+      playerState.time = Math.max(0, Math.min(playerState.duration, playerState.time + d));
+      updateProgressUI(); showSkipFlash(d);
+    });
+  });
+  function showSkipFlash(d) {
+    const flash = $('skipFlash');
+    $('skipFlashArrow').textContent = d < 0 ? '↺' : '↻';
+    flash.querySelector('.num-big').textContent = Math.abs(d) + 's';
+    flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show');
+  }
+  $('progressContainer').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = (rect.right - e.clientX) / rect.width;
+    playerState.time = Math.max(0, Math.min(playerState.duration, ratio * playerState.duration));
+    updateProgressUI();
+  });
+  $('muteBtn').addEventListener('click', (e) => {
+    e.stopPropagation(); playerState.muted = !playerState.muted;
+    $('muteIcon').innerHTML = playerState.muted
+      ? '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>'
+      : '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>';
+  });
+  const qualityMenu = $('qualityMenu');
+  $('qualityTrigger').addEventListener('click', (e) => { e.stopPropagation(); qualityMenu.classList.toggle('show'); });
+  document.querySelectorAll('.quality-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.querySelectorAll('.quality-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      $('currentQualityLabel').textContent = item.dataset.q;
+      qualityMenu.classList.remove('show');
+    });
+  });
+  document.addEventListener('click', () => qualityMenu.classList.remove('show'));
+  $('fullscreenBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!document.fullscreenElement) { (videoPlayer.requestFullscreen || videoPlayer.webkitRequestFullscreen || (() => {})).call(videoPlayer); }
+    else { (document.exitFullscreen || document.webkitExitFullscreen || (() => {})).call(document); }
+  });
+  $('backBtn').addEventListener('click', () => showHome());
+
+  // زر مشاهدة الآن → فتح الحلقة المختارة في تلغرام
+  $('watchNowBtn').addEventListener('click', () => {
+    openEpisodeVideo();
+  });
+
+  $('watchFavBtn').addEventListener('click', () => { if (currentAnime) toggleFavorite(currentAnime.title); });
+  $('watchSaveBtn').addEventListener('click', () => { if (currentAnime) toggleSaved(currentAnime.title); });
+  $('watchLaterBtn').addEventListener('click', () => { if (currentAnime) toggleWatchLater(currentAnime.title); });
+  
+  document.querySelectorAll('.server-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      selectedServerName = this.querySelector('.server-name').textContent;
+      selectedServerQuality = this.querySelector('.server-quality').textContent;
+    });
+  });
+
+  $('downloadBtn').addEventListener('click', () => {
+    if (!currentAnime) return;
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg, #f59e0b, #d97706);color:#fff;padding:12px 24px;border-radius:100px;font-weight:700;z-index:9999;box-shadow:0 10px 30px rgba(245,158,11,0.5);font-family:inherit;transition:opacity 0.3s;display:flex;align-items:center;gap:8px;';
+    toast.innerHTML = `<svg style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> جاري تحضير التحميل: ${selectedServerName} (${selectedServerQuality})...`;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+  });
+
+  $('similarScrollRight').addEventListener('click', () => { $('similarScroll').scrollBy({ left: 240, behavior: 'smooth' }); });
+  $('similarScrollLeft').addEventListener('click', () => { $('similarScroll').scrollBy({ left: -240, behavior: 'smooth' }); });
+  $('menuToggle').addEventListener('click', () => { $('sidebar').classList.add('open'); $('sidebarOverlay').classList.add('show'); });
+  $('sidebarClose').addEventListener('click', closeSidebar);
+  $('sidebarOverlay').addEventListener('click', closeSidebar);
+  $('animeListToggle').addEventListener('click', () => { $('animeListGroup').classList.toggle('open'); });
+  $('favoritesLink').addEventListener('click', (e) => { e.preventDefault(); showFavorites(); });
+  $('savedLink').addEventListener('click', (e) => { e.preventDefault(); showSaved(); });
+  $('topRatedLink').addEventListener('click', (e) => { e.preventDefault(); showTopRated(); });
+  $('watchLaterLink').addEventListener('click', (e) => { e.preventDefault(); showWatchLater(); });
+
+  document.querySelectorAll('.bottom-nav-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const nav = btn.dataset.nav;
+      if (nav === 'home') showHome();
+      else if (nav === 'favorites') showFavorites();
+      else if (nav === 'saved') showSaved();
+      else if (nav === 'explore') showTopRated();
+      else if (nav === 'downloads') { setActiveNav('downloads'); showPlaceholder('التحميلات'); }
+    });
+  });
+
+  document.querySelectorAll('#anime .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#anime .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); homeFilter = btn.dataset.filter; renderAnimeGrid();
+    });
+  });
+  document.querySelectorAll('#favFilters .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#favFilters .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); favFilter = btn.dataset.filter; renderFavorites();
+    });
+  });
+  $('searchInput').addEventListener('input', (e) => {
+    homeSearch = e.target.value.trim();
+    if (views.home.style.display === 'none') showHome();
+    renderAnimeGrid();
+    if (homeSearch) document.getElementById('anime').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  $('favSearchInput').addEventListener('input', (e) => { favSearch = e.target.value.trim(); renderFavorites(); });
+  $('startWatchBtn').addEventListener('click', () => { const top = [...animeData].sort((a, b) => b.rating - a.rating)[0]; openWatch(top); });
+  $('heroPoster').addEventListener('click', () => openWatch(animeData[0]));
+
+  renderNewReleases();
+  renderAnimeGrid(); renderRecGrid();
+  updateFavUI(); updateWatchLaterUI(); updateSavedUI();
+  updateProgressUI(); updatePlayPauseIcon();
+  $('favCountBadge').textContent = favorites.length + ' أنمي';
+  setActiveNav('home');
+</script>
+</body>
+</html>
